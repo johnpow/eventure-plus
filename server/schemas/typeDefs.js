@@ -31,6 +31,7 @@ const typeDefs = gql`
 
   type Query {
     users: [User]
+    events: [Event]
     user(username: String!): User
     thoughts(username: String): [Thought]
     thought(thoughtId: ID!): Thought
