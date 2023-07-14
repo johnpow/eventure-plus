@@ -25,6 +25,19 @@ const userSchema = new Schema({
       ref: 'Thought',
     },
   ],
+  events: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Event',
+    },
+  ],
+  signups: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Event',
+    },
+  ],
+
 });
 
 userSchema.pre('save', async function (next) {
