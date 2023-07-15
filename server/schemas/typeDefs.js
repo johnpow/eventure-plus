@@ -7,6 +7,8 @@ const typeDefs = gql`
     email: String
     password: String
     thoughts: [Thought]!
+    events: [Event]!
+    signups: [Event]!
   }
 
   type Thought {
@@ -15,6 +17,19 @@ const typeDefs = gql`
     thoughtAuthor: String
     createdAt: String
     comments: [Comment]!
+  }
+
+  type Event {
+    _id: ID
+    eventText: String
+    eventTitle: String
+    eventAuthor: String
+    eventDate: String
+    eventLocation: String
+    eventCategory: String
+    comments: [Comment]!
+    createdAt: String
+    signups: [User]!
   }
 
   type Comment {
@@ -33,6 +48,7 @@ const typeDefs = gql`
     users: [User]
     events: [Event]
     user(username: String!): User
+    event(eventId: ID!): Event
     thoughts(username: String): [Thought]
     thought(thoughtId: ID!): Thought
     me: User
