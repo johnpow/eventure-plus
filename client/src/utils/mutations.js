@@ -54,3 +54,24 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+export const ADD_EVENT = gql` 
+mutation AddEvent($eventText: String!, $eventTitle: String!, $eventDate: String!, $eventLocation: String!, $eventCategory: String!) {
+  addEvent(eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventLocation: $eventLocation, eventCategory: $eventCategory) {
+    _id
+    createdAt
+    eventAuthor
+    eventCategory
+    eventDate
+    eventLocation
+    eventText
+    eventTitle
+  }
+}`;
+
+export const ADD_SIGNUP = gql`
+mutation AddEvent($eventId: ID!) {
+  addSignup(eventId: $eventId) {
+    _id
+  }
+}`;
