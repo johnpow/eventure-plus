@@ -58,3 +58,18 @@ export const QUERY_ME = gql`
     }
   }
 `;
+
+export const QUERY_EVENTS = gql`
+  query getEvents {
+    events {
+      _id
+      createdAt
+      eventAuthor
+      eventCategory
+      eventDate
+      eventLocation
+      eventText
+      eventTitle
+    }
+  }
+`;
