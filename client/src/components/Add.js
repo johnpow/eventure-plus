@@ -17,7 +17,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@apollo/client';
 import { ADD_SIGNUP } from '../utils/mutations';
 import { useState } from 'react';
-
+import { ADD_EVENT } from '../utils/mutations';
+import { QUERY_EVENTS, QUERY_ME } from '../utils/queries';
+import dayjs from 'dayjs';
 
 const StyledModal = styled(Modal) ({
     display: "flex",
@@ -35,19 +37,74 @@ const UserBox = styled(Box)(({ theme }) => ({
 const Add = () => {
     const [open, setOpen] = React.useState(false);
     const [formState, setFormState] = useState({
-        username: '',
-        email: '',
-        password: '',
+        eventTitle: '',
+        eventText: '',
+        eventAuthor: '',
+        eventLocation: '',
+        eventDate: '',
+        eventCategory: '',
       });
-      const [addSignup, { error, data }] = useMutation(ADD_SIGNUP);
-      const handleChange = (event) => {
-        const { name, value } = event.target;
-    
-        setFormState({
-          ...formState,
-          [name]: value,
+      
+        const [addEvent, { error }] = useMutation(ADD_EVENT, {
+            update(cache, { data: { addEvent } }) {
+                try {
+                    const { events } = cache.readQuery({ query: QUERY_EVENTS });
+
+                    cache.writeQuery({
+                        query: QUERY_EVENTS,
+                        data: { events: [addEvent, ...events] },
+                    });
+                } catch (e) {
+                    console.error(e);
+                }
+
+                // update me object's cache
+                const { me } = cache.readQuery({ query: QUERY_ME });
+                cache.writeQuery({
+                    query: QUERY_ME,
+                    data: { me: { ...me, events: [...me.events, addEvent] } },
+                });
+            },
         });
-      };
+
+        const handleFormSubmit = async (event) => {
+            event.preventDefault();
+
+            try {
+                const { data } = await addEvent({
+                    variables: {
+                        eventTitle: formState.eventTitle,
+                        eventText: formState.eventText,
+                        eventAuthor: formState.eventAuthor,
+                        eventLocation: formState.eventLocation,
+                        eventDate: formState.eventDate,
+                        eventCategory: formState.eventCategory,
+                    },
+                });
+
+                setFormState({
+                    eventTitle: '',
+                    eventText: '',
+                    eventAuthor: '',
+                    eventLocation: '',
+                    eventDate: '',
+                    eventCategory: '',
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        const handleChange = (event) => {
+            const { name, value } = event.target;
+
+            setFormState({
+                ...formState,
+                [name]: value,
+            });
+        };
+
+
       
       
     return (
@@ -86,32 +143,59 @@ const Add = () => {
                     />
                     <Typography fontWeight={500} variant="span">Ram</Typography>
                 </UserBox>
+                <form
+                    onSubmit={handleFormSubmit}
+                 >
                 <TextField
+                name='eventTitle'
+                value={formState.eventTitle}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
                 placeholder="Title"
                 gutterBottom   
+                onChange={handleChange}
                 />
                 <TextField
+                name='eventText'
+                value={formState.eventText}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
                 placeholder="Category"
                 gutterBottom
+                onChange={handleChange}
                 />
                 <TextField
+                name='eventLocation'
+                value={formState.eventLocation}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
                 placeholder="Location"
                 gutterBottom
+                onChange={handleChange}
                 />
-                <DatePicker sx={{marginBottom:"10px"}} />
+                <TextField
+                name='eventDate'
+                value={formState.eventDate}
+                sx={{width:"100%", marginBottom:"10px"}}
+                variant="outlined"
+                placeholder="Date"
+                gutterBottom
+                onChange={handleChange}
+                />
+                {/* <DatePicker 
+                name='eventDate'
+                value={formState.eventDate}
+                sx={{marginBottom:"10px"}} /> */}
                 <TimePicker sx={{marginBottom:"10px"}} />                    
                 <TextField
+                name='eventCategory'
+                value={formState.eventCategory}
                 sx={{width:"100%", marginBottom:"10px"}}
                 multiline
                 rows={4}
                 placeholder="Description"
                 variant="outlined"
+                onChange={handleChange}
                 />
                 
                 {/* <Stack direction="row" gap={1} mt={2} mb={3}>
@@ -123,11 +207,12 @@ const Add = () => {
                 <ButtonGroup 
                 fullWidth
                 variant="contained" aria-label="outlined primary button group">
-                    <Button>Create</Button>
+                    <Button type = 'submit' >Create</Button>
                     {/* <Button
                     sx={{width:"100px"}}
                     ><DateRange/></Button> */}
-                </ButtonGroup>    
+                </ButtonGroup>  
+                </form>  
                 </Box>
             </StyledModal>
             </LocalizationProvider>   
