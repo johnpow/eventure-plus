@@ -21,7 +21,7 @@ const resolvers = {
        return Event.find().populate('signups').populate('comments');
      },
     event: async (parent, { eventId }) => {
-      return Event.findOne({ _id: eventId });
+      return Event.findOne({ _id: eventId }).populate('comments').populate('signups');;
     },
     me: async (parent, args, context) => {
       if (context.user) {
@@ -163,7 +163,7 @@ const resolvers = {
           { _id: eventId },
           {
             $addToSet: {
-              signups: context.user.username,
+              signups: context.user._id,
             },
           },
           {
