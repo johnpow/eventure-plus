@@ -60,11 +60,11 @@ const Add = () => {
                 }
 
                 // update me object's cache
-                const { me } = cache.readQuery({ query: QUERY_ME });
-                cache.writeQuery({
-                    query: QUERY_ME,
-                    data: { me: { ...me, events: [...me.events, addEvent] } },
-                });
+                // const { me } = cache.readQuery({ query: QUERY_ME });
+                // cache.writeQuery({
+                //     query: QUERY_ME,
+                //     data: { me: { ...me, events: [...me.events, addEvent] } },
+                // });
             },
         });
 
