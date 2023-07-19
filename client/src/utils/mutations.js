@@ -70,8 +70,19 @@ mutation AddEvent($eventText: String!, $eventTitle: String!, $eventDate: String!
 }`;
 
 export const ADD_SIGNUP = gql`
-mutation AddEvent($eventId: ID!) {
+mutation AddSignup($eventId: ID!) {
   addSignup(eventId: $eventId) {
     _id
+  }
+}`;
+
+export const REMOVE_SIGNUP = gql`
+mutation RemoveSignup($eventId: ID!) {
+  removeSignup(eventId: $eventId) {
+    _id
+    eventTitle
+    signups {
+      _id
+    }
   }
 }`;

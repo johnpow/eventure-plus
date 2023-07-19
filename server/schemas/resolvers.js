@@ -198,7 +198,7 @@ const resolvers = {
           { _id: eventId },
           {
             $pull: {
-              signups: context.user.username,
+              signups: context.user._id,
             },
           },
           {

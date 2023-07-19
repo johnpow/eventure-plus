@@ -4,10 +4,11 @@ import Post2 from "./Post2";
 import Login from "../pages/Login";
 import { QUERY_EVENTS } from '../utils/queries';
 import { useQuery } from '@apollo/client';
+import Auth from '../utils/auth';
 import useStyles from './styles';
 
-
 const Feed = () => {
+    const userId = Auth.getUserId();
     const { loading, data } = useQuery(QUERY_EVENTS);
     const events = data?.events || [];
     const classes = useStyles();
@@ -24,6 +25,7 @@ const Feed = () => {
                         location={event.eventLocation}
                         createdAt={event.createdAt}
                         category={event.eventCategory}
+                        checked= {event.signups.some((signup) => signup._id === userId)}
                     />
                 </Grid>
             ))}

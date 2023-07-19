@@ -6,14 +6,44 @@ import * as dayjs from 'dayjs';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { useState } from "react";
+import { useMutation } from '@apollo/client';
+import { ADD_SIGNUP, REMOVE_SIGNUP } from '../utils/mutations';
 
 
-const Post = (props) => {   
-    const [checked, setChecked] = useState(false);
-    const handleSignUp = () => {
-        if(checked){
-            
+const Post = (props) => { 
+    const [addSignup, { error }] = useMutation(ADD_SIGNUP);
+    const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP);
+    const [checked, setChecked] = useState(props.checked);
+    const [message, setMessage] = useState('');
+
+    const setDisappearingMessage = (text, duration) => {
+        setMessage(text);
+        setTimeout(() => {
+          return setMessage('');
+        }, duration);
+    };
+
+    const handleSignUp = (event) => {
+        if(event.target.checked){
+            try {
+                const {data} = addSignup({
+                    variables: { eventId: event.target.id },
+                });
+            }
+            catch (error) {
+                console.error(error);
+            }
+        } else {
+            try {
+                removeSignup({
+                    variables: { eventId: event.target.id },
+                });
+            }
+            catch (error) {
+                console.error(error);
+            }
         }
+        setChecked(event.target.checked);
     };
 
     return (
@@ -53,7 +83,13 @@ const Post = (props) => {
                 </IconButton>
                 <IconButton aria-label="share">
                 <Tooltip title="Sign Up">
-                    <Checkbox icon={<CheckBoxOutlineBlankIcon />} checkedIcon={<CheckBoxIcon sx={{color:"blue"}}/>} />
+                    <Checkbox 
+                    checked={checked}
+                    icon={<CheckBoxOutlineBlankIcon />} 
+                    checkedIcon={<CheckBoxIcon sx={{color:"blue"}}/>}
+                    id={props._id}
+                    onChange={handleSignUp}
+                    />
                 </Tooltip>
                 </IconButton>
             </CardActions>
