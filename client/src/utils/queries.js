@@ -70,6 +70,16 @@ export const QUERY_EVENTS = gql`
       eventLocation
       eventText
       eventTitle
+      signups {
+        _id
+        username
+      }
     }
-  }
-`;
+  }`;
+
+export const QUERY_USER_SIGNUPS = gql`
+  query userSignups($username: String!) {
+    getUserSignups {
+      _id
+    }
+  }`;

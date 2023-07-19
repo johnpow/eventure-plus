@@ -3,9 +3,11 @@ import Post from "./Post";
 import Login from "../pages/Login";
 import { QUERY_EVENTS } from '../utils/queries';
 import { useQuery } from '@apollo/client';
+import Auth from '../utils/auth';
 
 
 const Feed = () => {
+    const userId = Auth.getUserId();
     const { loading, data } = useQuery(QUERY_EVENTS);
     const events = data?.events || [];
     return(
@@ -20,6 +22,7 @@ const Feed = () => {
                     location={event.eventLocation}
                     createdAt={event.createdAt}
                     category={event.eventCategory}
+                    checked= {event.signups.some((signup) => signup._id === userId)}    
                 />
             ))}
         </Box>

@@ -9,8 +9,7 @@ import { useState } from 'react';
 
 const Login = () => {
     const [formState, setFormState] = useState({ email: '', password: '' });
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [login, { error, data }] = useMutation(LOGIN_USER);
+    const [login, { error}] = useMutation(LOGIN_USER);
 
     // update state based on form input changes
     const handleChange = (event) => {
@@ -30,8 +29,7 @@ const Login = () => {
         const { data } = await login({
           variables: { ...formState },
         });
-
-        Auth.login(data.login.token);
+        Auth.login(data.login.token, data.login.user._id);
       } catch (e) {
         console.error(e);
       }
