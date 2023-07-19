@@ -29,7 +29,7 @@ const Login = () => {
         const { data } = await login({
           variables: { ...formState },
         });
-        Auth.login(data.login.token, data.login.user._id);
+        Auth.login(data.login.token, data.login.user._id, data.login.user.username);
       } catch (e) {
         console.error(e);
       }

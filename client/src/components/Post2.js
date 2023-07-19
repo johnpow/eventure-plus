@@ -15,6 +15,13 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CampingImg from '../images/cards/Camping.png';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { Checkbox, Tooltip } from '@mui/material';
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_SIGNUP, REMOVE_SIGNUP } from '../utils/mutations';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,10 +42,36 @@ const formatDate = (dateValue) => {
 
 const Post2 = (props) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [addSignup, { error }] = useMutation(ADD_SIGNUP);
+    const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP);
+    const [checked, setChecked] = useState(props.checked);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleSignUp = (event) => {
+    if(event.target.checked){
+        try {
+            const {data} = addSignup({
+                variables: { eventId: event.target.id },
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    } else {
+        try {
+            removeSignup({
+                variables: { eventId: event.target.id },
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    }
+    setChecked(event.target.checked);
+};
 
   return (
     <Card elevation={3} sx={{ maxWidth: 345 }}>
@@ -68,8 +101,19 @@ const Post2 = (props) => {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="sign up">
+        {/* <IconButton aria-label="sign up">
           <HowToRegIcon />
+        </IconButton> */}
+        <IconButton aria-label="share">
+          <Tooltip title="Sign Up">
+              <Checkbox 
+              checked={checked}
+              icon={<CheckBoxOutlineBlankIcon />} 
+              checkedIcon={<CheckBoxIcon sx={{color:"blue"}}/>}
+              id={props._id}
+              onChange={handleSignUp}
+              />
+          </Tooltip>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
