@@ -20,6 +20,7 @@ import { useState } from 'react';
 import { ADD_EVENT } from '../utils/mutations';
 import { QUERY_EVENTS, QUERY_ME } from '../utils/queries';
 import dayjs from 'dayjs';
+import Auth from '../utils/auth';
 
 const StyledModal = styled(Modal) ({
     display: "flex",
@@ -93,6 +94,7 @@ const Add = () => {
             } catch (err) {
                 console.error(err);
             }
+            setOpen(false);
         };
 
         const handleChange = (event) => {
@@ -137,11 +139,11 @@ const Add = () => {
                 <UserBox>
                     <Avatar 
                     sx={{width: "30px", height:"30px"}} 
-                    alt="Ram" 
-                    src="https:/mui.com/images/avatar/1.jpg" 
+                    alt={Auth.getUsername()} 
+                    // src="https:/mui.com/images/avatar/1.jpg" 
                     onClick={() => setOpen(!open)}
                     />
-                    <Typography fontWeight={500} variant="span">Ram</Typography>
+                    <Typography fontWeight={500} variant="span">{Auth.getUsername()}</Typography>
                 </UserBox>
                 <form
                     onSubmit={handleFormSubmit}
@@ -151,17 +153,17 @@ const Add = () => {
                 value={formState.eventTitle}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
-                placeholder="Title"
-                gutterBottom   
+                placeholder="Title"               
+                required  
                 onChange={handleChange}
                 />
                 <TextField
-                name='eventText'
-                value={formState.eventText}
+                name='eventCategory'
+                value={formState.eventCategory}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
-                placeholder="Category"
-                gutterBottom
+                placeholder="Category"       
+                required 
                 onChange={handleChange}
                 />
                 <TextField
@@ -169,8 +171,8 @@ const Add = () => {
                 value={formState.eventLocation}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
-                placeholder="Location"
-                gutterBottom
+                placeholder="Location"                
+                required 
                 onChange={handleChange}
                 />
                 <TextField
@@ -178,8 +180,8 @@ const Add = () => {
                 value={formState.eventDate}
                 sx={{width:"100%", marginBottom:"10px"}}
                 variant="outlined"
-                placeholder="Date"
-                gutterBottom
+                placeholder="Date"                
+                required 
                 onChange={handleChange}
                 />
                 {/* <DatePicker 
@@ -188,13 +190,14 @@ const Add = () => {
                 sx={{marginBottom:"10px"}} /> */}
                 <TimePicker sx={{marginBottom:"10px"}} />                    
                 <TextField
-                name='eventCategory'
-                value={formState.eventCategory}
+                name='eventText'
+                value={formState.eventText}
                 sx={{width:"100%", marginBottom:"10px"}}
                 multiline
                 rows={4}
                 placeholder="Description"
                 variant="outlined"
+                required 
                 onChange={handleChange}
                 />
                 
