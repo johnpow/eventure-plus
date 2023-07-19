@@ -13,6 +13,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@apollo/client';
 import { ADD_SIGNUP } from '../utils/mutations';
@@ -36,7 +37,8 @@ const UserBox = styled(Box)(({ theme }) => ({
 }))
 
 const Add = () => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
     const [formState, setFormState] = useState({
         eventTitle: '',
         eventText: '',
@@ -46,66 +48,72 @@ const Add = () => {
         eventCategory: '',
       });
       
-        const [addEvent, { error }] = useMutation(ADD_EVENT, {
-            update(cache, { data: { addEvent } }) {
-                try {
-                    const { events } = cache.readQuery({ query: QUERY_EVENTS });
-
-                    cache.writeQuery({
-                        query: QUERY_EVENTS,
-                        data: { events: [addEvent, ...events] },
-                    });
-                } catch (e) {
-                    console.error(e);
-                }
-
-                // update me object's cache
-                // const { me } = cache.readQuery({ query: QUERY_ME });
-                // cache.writeQuery({
-                //     query: QUERY_ME,
-                //     data: { me: { ...me, events: [...me.events, addEvent] } },
-                // });
-            },
-        });
-
-        const handleFormSubmit = async (event) => {
-            event.preventDefault();
-
+    const [addEvent, { error }] = useMutation(ADD_EVENT, {
+        update(cache, { data: { addEvent } }) {
             try {
-                const { data } = await addEvent({
-                    variables: {
-                        eventTitle: formState.eventTitle,
-                        eventText: formState.eventText,
-                        eventAuthor: formState.eventAuthor,
-                        eventLocation: formState.eventLocation,
-                        eventDate: formState.eventDate,
-                        eventCategory: formState.eventCategory,
-                    },
-                });
+                const { events } = cache.readQuery({ query: QUERY_EVENTS });
 
-                setFormState({
-                    eventTitle: '',
-                    eventText: '',
-                    eventAuthor: '',
-                    eventLocation: '',
-                    eventDate: '',
-                    eventCategory: '',
+                cache.writeQuery({
+                    query: QUERY_EVENTS,
+                    data: { events: [addEvent, ...events] },
                 });
-            } catch (err) {
-                console.error(err);
+            } catch (e) {
+                console.error(e);
             }
-            setOpen(false);
-        };
 
-        const handleChange = (event) => {
-            const { name, value } = event.target;
+            // update me object's cache
+            // const { me } = cache.readQuery({ query: QUERY_ME });
+            // cache.writeQuery({
+            //     query: QUERY_ME,
+            //     data: { me: { ...me, events: [...me.events, addEvent] } },
+            // });
+        },
+    });
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+
+        try {
+            const { data } = await addEvent({
+                variables: {
+                    eventTitle: formState.eventTitle,
+                    eventText: formState.eventText,
+                    eventAuthor: formState.eventAuthor,
+                    eventLocation: formState.eventLocation,
+                    eventDate: formState.eventDate,
+                    eventCategory: formState.eventCategory,
+                },
+            });
 
             setFormState({
-                ...formState,
-                [name]: value,
+                eventTitle: '',
+                eventText: '',
+                eventAuthor: '',
+                eventLocation: '',
+                eventDate: '',
+                eventCategory: '',
             });
-        };
+        } catch (err) {
+            console.error(err);
+        }
+        setOpen(false);
+    };
 
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+
+        setFormState({
+            ...formState,
+            [name]: value,
+        });
+    };
+    const handleDateChange = (newValue) => {
+        setValue(newValue);
+        setFormState({
+            ...formState,
+            eventDate: newValue,
+        });
+    };
 
       
       
@@ -175,20 +183,13 @@ const Add = () => {
                 required 
                 onChange={handleChange}
                 />
-                <TextField
-                name='eventDate'
-                value={formState.eventDate}
-                sx={{width:"100%", marginBottom:"10px"}}
-                variant="outlined"
-                placeholder="Date"                
-                required 
-                onChange={handleChange}
+                <DateTimePicker
+                    label="Date and Time"
+                    name='eventDate'
+                    value={value}
+                    sx={{marginBottom:"10px"}}
+                    onChange={handleDateChange}
                 />
-                {/* <DatePicker 
-                name='eventDate'
-                value={formState.eventDate}
-                sx={{marginBottom:"10px"}} /> */}
-                <TimePicker sx={{marginBottom:"10px"}} />                    
                 <TextField
                 name='eventText'
                 value={formState.eventText}
@@ -200,20 +201,10 @@ const Add = () => {
                 required 
                 onChange={handleChange}
                 />
-                
-                {/* <Stack direction="row" gap={1} mt={2} mb={3}>
-                    <EmojiEmotions color="primary"/>
-                    <Image color="secondary"/>
-                    <VideoCameraBack color="success"/>
-                    <PersonAdd color="error"/>
-                </Stack> */}
                 <ButtonGroup 
                 fullWidth
                 variant="contained" aria-label="outlined primary button group">
                     <Button type = 'submit' >Create</Button>
-                    {/* <Button
-                    sx={{width:"100px"}}
-                    ><DateRange/></Button> */}
                 </ButtonGroup>  
                 </form>  
                 </Box>
