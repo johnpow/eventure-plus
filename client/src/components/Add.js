@@ -22,6 +22,23 @@ import { ADD_EVENT } from '../utils/mutations';
 import { QUERY_EVENTS, QUERY_ME } from '../utils/queries';
 import dayjs from 'dayjs';
 import Auth from '../utils/auth';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import OutlinedInput from '@mui/material/OutlinedInput';
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 
 const StyledModal = styled(Modal) ({
     display: "flex",
@@ -35,6 +52,8 @@ const UserBox = styled(Box)(({ theme }) => ({
     alignItems: "center",
     marginBottom: "20px",
 }))
+
+
 
 const Add = () => {
     const [open, setOpen] = useState(false);
@@ -160,7 +179,38 @@ const Add = () => {
                 required  
                 onChange={handleChange}
                 />
-                <TextField
+
+                <FormControl fullWidth sx={{ display: 'flex', alignItems: 'center' }}>
+                  <InputLabel
+                  >Category</InputLabel>
+                  <Select
+                    name='eventCategory'
+                    value={formState.eventCategory}
+                    sx={{
+                        width: "100%",
+                        marginBottom: "10px"
+                    }}
+                    variant= "outlined"
+                    placeholder="Category"
+                    required
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Category" />}
+                    MenuProps={MenuProps}
+                  >             
+                    <MenuItem value={"Arts and Crafts"}>Arts and Crafts</MenuItem>
+                    <MenuItem value={"Education"}>Education</MenuItem>
+                    <MenuItem value={"Entertainment"}>Entertainment</MenuItem>
+                    <MenuItem value={"Music"}>Music</MenuItem>
+                    <MenuItem value={"Outdoors"}>Outdoors</MenuItem>
+                    <MenuItem value={"Pets"}>Pets</MenuItem>
+                    <MenuItem value={"Sports"}>Sports</MenuItem>
+                    <MenuItem value={"Social"}>Social</MenuItem>
+                    <MenuItem value={"Tech"}>Tech</MenuItem>
+                    <MenuItem value={"Trivia"}>Trivia</MenuItem>
+                  </Select>
+                </FormControl>
+
+                {/* <TextField
                 name='eventCategory'
                 value={formState.eventCategory}
                 sx={{width:"100%", marginBottom:"10px"}}
@@ -168,7 +218,7 @@ const Add = () => {
                 placeholder="Category"       
                 required 
                 onChange={handleChange}
-                />
+                /> */}
                 <TextField
                 name='eventLocation'
                 value={formState.eventLocation}
@@ -178,11 +228,11 @@ const Add = () => {
                 required 
                 onChange={handleChange}
                 />
-                <DateTimePicker
+                <DateTimePicker fullWidth 
+                    sx={{ marginBottom:"10px" }}
                     label="Date and Time"
                     name='eventDate'
                     value={value}
-                    sx={{marginBottom:"10px"}}
                     onChange={handleDateChange}
                 />
                 <TextField
