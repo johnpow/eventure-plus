@@ -19,13 +19,22 @@ const resolvers = {
     },
     events: async () => {
        return Event.find().populate('signups').populate('comments');
-     },
+     }, 
     event: async (parent, { eventId }) => {
       return Event.findOne({ _id: eventId }).populate('comments').populate('signups');;
     },
     me: async (parent, args, context) => {
       if (context.user) {
         return User.findOne({ _id: context.user._id }).populate('thoughts');
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    getUserEvents: async (parent, args, context) => {
+      if (context.user) {
+        // Retrieve the events for the currently logged-in user
+        const events = await Event.find({ eventAuthor: context.user.username }).populate('signups');
+        console.log(events);
+        return events;
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -153,6 +162,27 @@ const resolvers = {
         );
 
         return event;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    updateEvent: async (parent, { eventId, eventText, eventTitle, eventDate, eventLocation, eventCategory }, context) => {
+      if (context.user) {
+        return Event.findOneAndUpdate(
+          { _id: eventId },
+          {
+            $set: {
+              eventText,
+              eventTitle,
+              eventDate,
+              eventLocation,
+              eventCategory,
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
       }
       throw new AuthenticationError('You need to be logged in!');
     },

@@ -52,6 +52,7 @@ const typeDefs = gql`
     thoughts(username: String): [Thought]
     thought(thoughtId: ID!): Thought
     me: User
+    getUserEvents: [Event]
     getUserSignups: [Event]  
     getEventSignups(eventId: ID!): [User] 
   }
@@ -64,6 +65,7 @@ const typeDefs = gql`
     removeThought(thoughtId: ID!): Thought
     removeComment(thoughtId: ID!, commentId: ID!): Thought
     addEvent(eventText: String!, eventTitle: String!, eventDate: String!, eventLocation: String!, eventCategory: String!): Event
+    updateEvent(eventId: ID!, eventText: String!, eventTitle: String!, eventDate: String!, eventLocation: String!, eventCategory: String!): Event
     addEventComment(eventId: ID!, commentText: String!): Event
     removeEvent(eventId: ID!): Event
     removeEventComment(eventId: ID!, commentId: ID!): Event

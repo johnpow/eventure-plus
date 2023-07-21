@@ -77,6 +77,23 @@ export const QUERY_EVENTS = gql`
     }
   }`;
 
+export const MY_EVENTS = gql`
+query GetUserEvents {
+  getUserEvents {
+    _id
+    eventAuthor
+    eventText
+    eventCategory
+    eventDate
+    eventLocation
+    eventTitle
+    signups {
+      _id
+      username
+    }
+  }
+}`;
+
 export const QUERY_USER_SIGNUPS = gql`
   query userSignups($username: String!) {
     getUserSignups {

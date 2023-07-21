@@ -69,12 +69,37 @@ mutation AddEvent($eventText: String!, $eventTitle: String!, $eventDate: String!
   }
 }`;
 
+export const UPDATE_EVENT = gql`
+mutation UpdateEvent($eventId: ID!, $eventText: String!, $eventTitle: String!, $eventDate: String!, $eventLocation: String!, $eventCategory: String!) {
+  updateEvent(eventId: $eventId, eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventLocation: $eventLocation, eventCategory: $eventCategory) {
+    _id
+    eventTitle
+    eventText
+    eventAuthor
+    eventLocation
+    eventDate
+    eventCategory
+    signups {
+      _id
+      username
+    }
+  }
+}`;
+
+export const REMOVE_EVENT = gql`
+mutation RemoveEvent($eventId: ID!) {
+  removeEvent(eventId: $eventId) {
+    eventTitle
+    eventText
+  }
+}`;
+
 export const ADD_SIGNUP = gql`
 mutation AddSignup($eventId: ID!) {
   addSignup(eventId: $eventId) {
     _id
   }
-}`;
+  }`;
 
 export const REMOVE_SIGNUP = gql`
 mutation RemoveSignup($eventId: ID!) {
@@ -85,4 +110,18 @@ mutation RemoveSignup($eventId: ID!) {
       _id
     }
   }
-}`;
+  }`;
+
+export const ADD_EVENT_COMMENT = gql`
+  mutation AddEventComment($eventId: ID!, $commentText: String!) {
+    addEventComment(eventId: $eventId, commentText: $commentText) {
+      _id
+      eventTitle
+      comments {
+        commentText
+        commentAuthor
+        createdAt
+        _id
+      }
+    }
+  }`;
