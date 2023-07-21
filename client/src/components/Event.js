@@ -191,7 +191,7 @@ const Event = (props) => {
         </ExpandMore>
       </CardActions>
       {open && expandedPostId === props._id && (
-        <ExpandedCard {...props} />
+        <ExpandedCard eventId= {expandedPostId} comments={props.comments} />
       )}
       {edit && (
         <Edit open 

@@ -6,12 +6,21 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useMutation } from '@apollo/client';
-import { ADD__EVENTCOMMENT } from '../utils/mutations';
+import { ADD_EVENT_COMMENT } from '../utils/mutations';
+import { Container } from '@mui/material';
 
-const ExpandedCard = () => {
+const ExpandedCard = ({eventId, comments}) => {
   const [comment, setComment] = useState('');
+  const [addEventComment, { error }] = useMutation(ADD_EVENT_COMMENT);
 
   const handleSaveComment = () => {
+    console.log(comment);
+    console.log("I am in handleSaveComment");
+    console.log(eventId);
+    addEventComment({
+        variables: { eventId: eventId, commentText: comment },
+    });
+    window.location.reload();
     setComment('');
   };
 
@@ -31,6 +40,14 @@ const ExpandedCard = () => {
           Save
         </Button>
       </CardActions>
+      {comments && comments.length > 0 && (
+          <Container>
+            <Typography variant='h6'>Comments</Typography>
+            {comments.map((comment, index) => (
+              <div key={index}>{comment.commentText}</div>
+            ))}
+          </Container>
+        )}
     </Card>
   );
 };

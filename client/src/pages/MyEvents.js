@@ -35,6 +35,7 @@ const MyEvents = () => {
                 location={event.eventLocation}
                 createdAt={event.createdAt}
                 category={event.eventCategory}
+                comments={event.comments}
                 checked
               />
             </Grid>

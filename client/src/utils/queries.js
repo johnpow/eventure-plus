@@ -74,6 +74,12 @@ export const QUERY_EVENTS = gql`
         _id
         username
       }
+      comments {
+        _id
+        commentText
+        commentAuthor
+        createdAt
+      }
     }
   }`;
 
@@ -90,6 +96,12 @@ query GetUserEvents {
     signups {
       _id
       username
+    }
+    comments {
+      _id
+      commentText
+      commentAuthor
+      createdAt
     }
   }
 }`;
