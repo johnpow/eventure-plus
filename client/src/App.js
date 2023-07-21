@@ -15,7 +15,7 @@ import Signup from './pages/Register';
 // import Login from './pages/Login';
 import Login from './pages/Login2';
 import SingleThought from './pages/SingleThought';
-import Profile from './pages/Profile';
+import Profile from './pages/Profile2';
 // import Header from './components/Header';
 import Header from './components/Header/Header';
 

@@ -48,25 +48,20 @@ const Add = () => {
         eventCategory: '',
       });
       
-    const [addEvent, { error }] = useMutation(ADD_EVENT, {
+      const [addEvent, { error }] = useMutation(ADD_EVENT, {
         update(cache, { data: { addEvent } }) {
             try {
                 const { events } = cache.readQuery({ query: QUERY_EVENTS });
-
+          
+                const updatedAddEvent = { ...addEvent, signups: [] };
+          
                 cache.writeQuery({
-                    query: QUERY_EVENTS,
-                    data: { events: [addEvent, ...events] },
+                  query: QUERY_EVENTS,
+                  data: { events: [updatedAddEvent, ...events] },
                 });
             } catch (e) {
                 console.error(e);
             }
-
-            // update me object's cache
-            // const { me } = cache.readQuery({ query: QUERY_ME });
-            // cache.writeQuery({
-            //     query: QUERY_ME,
-            //     data: { me: { ...me, events: [...me.events, addEvent] } },
-            // });
         },
     });
 
