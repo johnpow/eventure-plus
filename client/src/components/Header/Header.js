@@ -21,7 +21,24 @@ const Header = () => {
     return (
         <AppBar position="sticky">
             <StyledToolbar>
-            <Typography variant="h6" sx={{ display: {xs: "none", sm: "block"}}}>Eventure</Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                display: { xs: "none", sm: "block" },
+                color: "white", // Set the text color to white
+                textDecoration: "none", // Remove the underline
+                transition: 'transform 0.3s', // Add a 0.3-second transition to the transform property
+                  '&:hover': {
+                  color: "white", // Set the text color to white on hover
+                  textDecoration: "none", // Remove the underline on hover
+                  transform: 'scale(1.03)', // Scale the text by 5% on hover
+                  },
+                }}
+              component={Link} // Use MUI's Link component to avoid default link styles
+              to="/"
+              >
+              Eventure
+            </Typography>
             <EventRoundedIcon sx={{ display: {xs: "block", sm: "none"}}}/>
             <div>
           {Auth.loggedIn() ? (

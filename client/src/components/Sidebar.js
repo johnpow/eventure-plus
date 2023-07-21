@@ -1,13 +1,16 @@
-import { Box, Switch } from "@mui/material";
+import React from 'react';
+import { Box } from "@mui/material";
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
-import { ModeNight } from "@mui/icons-material";
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const Sidebar = ({mode, setMode}) => {
+const Sidebar = ({ toggleColorMode, theme }) => {
+
     return (
         <Box  
         flex={1} p={2} 
@@ -55,11 +58,11 @@ const Sidebar = ({mode, setMode}) => {
                 </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemButton component='a' href="#profile">
-                <ListItemIcon>
-                    <ModeNight />    
-                </ListItemIcon>
-                <Switch onChange={() => setMode(mode==="light" ? "dark" : "light")}/>
+                <ListItemButton onClick={toggleColorMode}>
+                    <ListItemIcon  color="inherit">
+                        {theme.palette.mode === 'dark' ? <Brightness7Icon sx={{color: "#ffd54f"}}/> : <Brightness4Icon sx={{color:'#3f51b5'}}/>}
+                    </ListItemIcon>
+                    {theme.palette.mode === 'dark' ? "Light" : "Dark"} Mode
                 </ListItemButton>
             </ListItem>
             </List>
@@ -68,5 +71,4 @@ const Sidebar = ({mode, setMode}) => {
         
     );
 }
-
-export default Sidebar;
+export default  Sidebar;

@@ -1,7 +1,7 @@
-import { Box } from "@mui/material";
+// import { Box } from "@mui/material";
 import { Grid } from "@mui/material";
 import Post2 from "./Post2";
-import Login from "../pages/Login";
+// import Login from "../pages/Login";
 import { QUERY_EVENTS } from '../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
