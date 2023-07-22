@@ -11,6 +11,17 @@ export const QUERY_USER = gql`
         thoughtText
         createdAt
       }
+      events {
+        _id
+        eventText
+        eventTitle
+      }
+      signups {
+        _id
+        eventTitle
+        }
+      bio
+      city
     }
   }
 `;
@@ -55,6 +66,17 @@ export const QUERY_ME = gql`
         thoughtAuthor
         createdAt
       }
+      events {
+        _id
+        eventText
+        eventTitle
+      }
+      signups {
+        _id
+        eventTitle
+      }
+      bio
+      city
     }
   }
 `;
