@@ -54,6 +54,18 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+
+    getEventsByCategory: async (parent, { eventCategory }, context) => {
+      if (context.user) {
+        if(eventCategory === "All") {
+          return Event.find().populate('signups');
+        }
+        // Retrieve the events for the specified category
+        const events = await Event.find({ eventCategory: eventCategory }).populate('signups');
+        return events;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    }
   },
 
   Mutation: {

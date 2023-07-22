@@ -150,3 +150,26 @@ query GetUserSignups {
     }
   }
 }`;
+
+export const QUERY_EVENTS_BY_CATEGORY = gql`
+query GetEventsByCategory($eventCategory: String!) {
+  getEventsByCategory(eventCategory: $eventCategory) {
+    eventText
+    eventTitle
+    _id
+    comments {
+      _id
+      commentAuthor
+      commentText
+      createdAt
+    }
+    createdAt
+    eventAuthor
+    eventCategory
+    eventDate
+    eventLocation
+    signups {
+      username
+    }
+  }
+}`;

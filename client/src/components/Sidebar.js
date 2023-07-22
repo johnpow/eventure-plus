@@ -15,18 +15,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 
-const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) => {
+const Sidebar = ({ toggleColorMode, theme }) => {
     const [selectedCategory, setSelectedCategory] = useState('All');
   
     const handleCategoryChange = (event) => {
+        console.log(event.target.value);
       setSelectedCategory(event.target.value);
-      onCategorySelect(event.target.value); // Call the callback function with the selected category
     };
-
-    const handleMyEventsClick = () => {
-        setSelectedCategory('All'); // Reset selected category to 'All' when switching to My Events
-        // setShowMyEvents(true); // Set showMyEvents to true to display the user's events
-      };
 
     return (
         <Box  
@@ -45,17 +40,17 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
             <FormControl sx={{ marginBottom: '10px', marginLeft: '15px', minWidth: 150 }}>
             <ListItem>Search by Category</ListItem>
                 <Select value={selectedCategory} onChange={handleCategoryChange}>
-                  <MenuItem value="All">All</MenuItem>
-                  <MenuItem value={"Arts and Crafts"}>Arts and Crafts</MenuItem>
-                  <MenuItem value={"Education"}>Education</MenuItem>
-                  <MenuItem value={"Entertainment"}>Entertainment</MenuItem>
-                  <MenuItem value={"Music"}>Music</MenuItem>
-                  <MenuItem value={"Outdoors"}>Outdoors</MenuItem>
-                  <MenuItem value={"Pets"}>Pets</MenuItem>
-                  <MenuItem value={"Sports"}>Sports</MenuItem>
-                  <MenuItem value={"Social"}>Social</MenuItem>
-                  <MenuItem value={"Tech"}>Tech</MenuItem>
-                  <MenuItem value={"Trivia"}>Trivia</MenuItem>
+                  <MenuItem value="All" component={Link} to="/category/All">All</MenuItem>
+                  <MenuItem value={"Arts and Crafts"} component={Link} to="/category/Arts and Crafts">Arts and Crafts</MenuItem>
+                  <MenuItem value={"Education"} component={Link} to="/category/Education">Education</MenuItem>
+                  <MenuItem value={"Entertainment"} component={Link} to="/category/Entertainment">Entertainment</MenuItem>
+                  <MenuItem value={"Music"} component={Link} to="/category/Music">Music</MenuItem>
+                  <MenuItem value={"Outdoors"} component={Link} to="/category/Outdoors">Outdoors</MenuItem>
+                  <MenuItem value={"Pets"} component={Link} to="/category/Pets">Pets</MenuItem>
+                  <MenuItem value={"Sports"} component={Link} to="/category/Sports">Sports</MenuItem>
+                  <MenuItem value={"Social"} component={Link} to="/category/Social">Social</MenuItem>
+                  <MenuItem value={"Tech"} component={Link} to="/category/Tech">Tech</MenuItem>
+                  <MenuItem value={"Trivia"} component={Link} to="/category/Trivia">Trivia</MenuItem>
                 </Select>
             </FormControl>
             <ListItem >
