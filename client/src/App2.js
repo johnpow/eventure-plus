@@ -27,6 +27,7 @@ import Profile from './pages/Profile2';
 import Header from './components/Header/Header';
 import MyEvents from './pages/MyEvents';
 import UserSignup from './components/UserSignup';
+import Category from './components/Category';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -86,6 +87,7 @@ function App() {
                             <Route path="/myevents" element={<MyEvents />} />
                             <Route path="/signedup" element={<UserSignup />} />
                             <Route path="/me" element={<Profile />} />
+                            <Route path="/category/:category" element={<Category />} />
                         </>
                     )}
                     {!Auth.loggedIn() && (
