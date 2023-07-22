@@ -17,12 +17,19 @@ const Feed = ({ selectedCategory }) => {
     const events = data?.events || [];
     const classes = useStyles();
 
-    // Sort events by eventDate
-    const sortedEvents = [...events].sort((a, b) => {
-    const dateA = new Date(a.eventDate * 1000);
-    const dateB = new Date(b.eventDate * 1000);
-    return dateA - dateB;
-    });
+// Sorting and filtering logic for events
+    const now = Date.now(); 
+
+    const sortedEvents = [...events]
+      .filter(event => {
+        return event.eventDate >= now; 
+      })
+      .sort((a, b) => {
+        const dateA = a.eventDate;
+        const dateB = b.eventDate;
+        return dateA - dateB; 
+      });
+
 
     const filterEventsByCategory = (events, category) => {
       if (category === 'All') {
@@ -57,5 +64,7 @@ const Feed = ({ selectedCategory }) => {
         </Grid>
       )
 }
-
+Feed.defaultProps = {
+  selectedCategory: 'All',
+};
 export default Feed;
