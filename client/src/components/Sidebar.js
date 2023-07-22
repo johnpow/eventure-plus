@@ -34,7 +34,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
         sx={{ display: { xs: "none", sm: "block"}}}>
             <Box position={"fixed"}>
             <List>
-            <ListItem disablePadding>
+            <ListItem >
               <ListItemButton component={Link}  to="/">
                 <ListItemIcon>
                     <HomeIcon />    
@@ -42,7 +42,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                 <ListItemText primary="Homepage" />
                 </ListItemButton>
             </ListItem>
-            <FormControl disablePadding sx={{ marginBottom: '10px', marginLeft: '15px', minWidth: 150 }}>
+            <FormControl sx={{ marginBottom: '10px', marginLeft: '15px', minWidth: 150 }}>
             <ListItem>Search by Category</ListItem>
                 <Select value={selectedCategory} onChange={handleCategoryChange}>
                   <MenuItem value="All">All</MenuItem>
@@ -58,7 +58,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                   <MenuItem value={"Trivia"}>Trivia</MenuItem>
                 </Select>
             </FormControl>
-            <ListItem disablePadding>
+            <ListItem >
                 <ListItemButton component={Link} to="/myevents">
                 {/* // onClick={() => setShowMyEvents((prevShowMyEvents) => !prevShowMyEvents)} > Toggle showMyEvents */}
                     <ListItemIcon>
@@ -67,7 +67,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                     <ListItemText primary="My Events" />
                 </ListItemButton>
           </ListItem>
-            <ListItem disablePadding>
+            <ListItem >
                 <ListItemButton component={Link} to="/signedup">
                 <ListItemIcon>
                     <CheckBoxRoundedIcon />    
@@ -83,7 +83,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                 <ListItemText primary="New Event" />
                 </ListItemButton>
             </ListItem> */}
-            <ListItem disablePadding>
+            <ListItem >
                 <ListItemButton component='a' href="me" >
                 <ListItemIcon>
                     <AccountCircleRoundedIcon />    
@@ -91,7 +91,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                 <ListItemText primary="Profile" />
                 </ListItemButton>
             </ListItem>
-            <ListItem disablePadding>
+            <ListItem >
                 <ListItemButton onClick={toggleColorMode}>
                     <ListItemIcon  color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness7Icon sx={{color: "#ffd54f"}}/> : <Brightness4Icon sx={{color:'#3f51b5'}}/>}
