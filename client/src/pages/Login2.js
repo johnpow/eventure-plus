@@ -48,22 +48,24 @@ const Login = () => {
       style={{ minHeight: '100vh' }} 
       >
         <Paper elevation={10} sx={{height: '70vh', width: 300, margin: "20px auto", padding:"20px"}}>
-          <Grid align="center" sx={{margin: "10px auto"}}>
+          <Grid align="center" sx={{margin: "10px auto 40px"}}>
             {/* <Avatar sx={{bgcolor: "primary.main"}}>
               <LockOutlinedIcon />
             </Avatar> */}
             <Typography variant="h4">Login</Typography>
           </Grid>
           <form onSubmit={handleFormSubmit}>
-            <TextField label="Email" variant="standard" 
-            placeholder="Enter Email" sx={{margin: "10px 0 20px 0"}} 
+          <Typography sx={{ paddingLeft: '0'}}> Email:</Typography>
+            <TextField variant="standard" 
+            placeholder="Enter Email" sx={{margin: "10px 0 30px 0"}} 
             fullWidth required
             name="email"
             type="email"
             value={formState.email}
             onChange={handleChange} 
             />
-            <TextField label="Password" variant="standard" 
+            <Typography sx={{ paddingLeft: '0'}}> Password:</Typography>
+            <TextField variant="standard" 
             placeholder="*********" sx={{margin: "10px 0 20px 0"}} 
             fullWidth required
             name="password"
