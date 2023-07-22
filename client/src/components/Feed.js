@@ -47,7 +47,7 @@ const Feed = ({ selectedCategory }) => {
         <Grid container spacing={3} className={classes.cardContainer}>
            {filteredEvents.map((event) => (
             <Grid item xs={12} sm={12} md={12} className={classes.cardItem} key={event._id}>
-              <Post2
+              <Post2 
                 key={event._id}
                 _id={event._id}
                 author={event.eventAuthor}

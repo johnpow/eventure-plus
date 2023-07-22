@@ -126,12 +126,26 @@ export const ADD_EVENT_COMMENT = gql`
     }
   }`;
 
-  export const UPDATE_USER = gql`
-  mutation UpdateUser($username: String!, $email: String!, $bio: String!, $city: String!) {
-    updateUser(username: $username, email: $email, bio: $bio, city: $city) {
-      username
-      email
-      bio
-      city
+export const REMOVE_COMMENT = gql`
+  mutation RemoveComment($eventId: ID!, $commentText: String!) {
+    removeComment(eventId: $eventId, commentText: $commentText) {
+      _id
+      eventTitle
+      comments {
+        commentText
+        commentAuthor
+        createdAt
+        _id
+      }
     }
-  }`;
+}`;
+
+export const UPDATE_USER = gql`
+mutation UpdateUser($username: String!, $email: String!, $bio: String!, $city: String!) {
+  updateUser(username: $username, email: $email, bio: $bio, city: $city) {
+    username
+    email
+    bio
+    city
+  }
+}`;

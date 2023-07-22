@@ -40,7 +40,7 @@ function Home() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>/
       <CssBaseline />
       <Box bgcolor={'background.default'} color={'text.primary'}>
       <Stack direction="row" spacing={2} justifyContent={'space-between'}>
