@@ -42,7 +42,11 @@ const Login = () => {
     };
     
     return (
-      <Grid>
+      <Grid
+      container
+      justifyContent="center"  
+      style={{ minHeight: '100vh' }} 
+      >
         <Paper elevation={10} sx={{height: '70vh', width: 300, margin: "20px auto", padding:"20px"}}>
           <Grid align="center" sx={{margin: "10px auto"}}>
             {/* <Avatar sx={{bgcolor: "primary.main"}}>

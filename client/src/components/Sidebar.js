@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Box } from "@mui/material";
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
@@ -18,7 +19,7 @@ const Sidebar = ({ toggleColorMode, theme }) => {
             <Box position={"fixed"}>
             <List>
             <ListItem disablePadding>
-                <ListItemButton component='a' href="#home">
+                <ListItemButton component={Link} to="/">
                 <ListItemIcon>
                     <HomeIcon />    
                 </ListItemIcon>
@@ -26,7 +27,7 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                 </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemButton component='a' href="#myEvents">
+                <ListItemButton component={Link} to="/myevents">
                 <ListItemIcon>
                     <EventRoundedIcon />    
                 </ListItemIcon>
@@ -34,7 +35,7 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                 </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
-                <ListItemButton component='a' href="#signedUp">
+                <ListItemButton component={Link} to="/signedup">
                 <ListItemIcon>
                     <CheckBoxRoundedIcon />    
                 </ListItemIcon>
