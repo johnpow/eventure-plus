@@ -9,6 +9,8 @@ const typeDefs = gql`
     thoughts: [Thought]!
     events: [Event]!
     signups: [Event]!
+    bio: String
+    city: String
   }
 
   type Thought {
@@ -59,6 +61,7 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
+    updateUser(username: String!, email: String!, bio: String!, city: String!): User
     login(email: String!, password: String!): Auth
     addThought(thoughtText: String!): Thought
     addComment(thoughtId: ID!, commentText: String!): Thought
@@ -71,7 +74,6 @@ const typeDefs = gql`
     removeEventComment(eventId: ID!, commentId: ID!): Event
     addSignup(eventId: ID!): Event
     removeSignup(eventId: ID!): Event
-
   
   }
 `;

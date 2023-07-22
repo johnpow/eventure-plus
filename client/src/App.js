@@ -18,6 +18,10 @@ import SingleThought from './pages/SingleThought';
 import Profile from './pages/Profile2';
 // import Header from './components/Header';
 import Header from './components/Header/Header';
+import MyEvents from './pages/MyEvents';
+
+import { useState } from 'react';
+
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -62,6 +66,10 @@ function App() {
               <Route 
                 path="/signup" 
                 element={<Signup />}
+              />
+              <Route 
+                path="/my-events" 
+                element={<MyEvents/>}
               />
               <Route 
                 path="/me" 

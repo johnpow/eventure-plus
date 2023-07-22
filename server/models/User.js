@@ -19,6 +19,20 @@ const userSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  bio: {
+    type: String,
+    required: false,
+    minlength: 1,
+    maxlength: 1000,
+    default: 'Tell us about you',
+  },
+  city: {
+    type: String,
+    required: false,
+    minlength: 1,
+    maxlength: 1000,
+    default: 'No preference',
+  },
   thoughts: [
     {
       type: Schema.Types.ObjectId,

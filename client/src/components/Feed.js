@@ -6,8 +6,12 @@ import { QUERY_EVENTS } from '../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
 import useStyles from './styles';
+import React, { useState } from 'react';
 
-const Feed = () => {
+
+const Feed = ({ selectedCategory }) => {
+    // const [selectedCategory, setSelectedCategory] = useState('All'); // Initial value to show all events
+
     const userId = Auth.getUserId();
     const { loading, data } = useQuery(QUERY_EVENTS);
     const events = data?.events || [];
@@ -15,14 +19,26 @@ const Feed = () => {
 
     // Sort events by eventDate
     const sortedEvents = [...events].sort((a, b) => {
-        const dateA = new Date(a.eventDate * 1000);
-        const dateB = new Date(b.eventDate * 1000);
-        return dateA - dateB;
-      });
+    const dateA = new Date(a.eventDate * 1000);
+    const dateB = new Date(b.eventDate * 1000);
+    return dateA - dateB;
+    });
+
+    const filterEventsByCategory = (events, category) => {
+      if (category === 'All') {
+        return events; // Show all events if 'All' is selected
+      } else {
+        return events.filter((event) => event.eventCategory === category);
+      }
+    };
+
+     // Filter events based on the selected category
+     const filteredEvents = filterEventsByCategory(sortedEvents, selectedCategory);
+
       console.log(sortedEvents);
       return (
         <Grid container spacing={3} className={classes.cardContainer}>
-          {sortedEvents.map((event) => (
+           {filteredEvents.map((event) => (
             <Grid item xs={12} sm={12} md={12} className={classes.cardItem} key={event._id}>
               <Post2
                 key={event._id}

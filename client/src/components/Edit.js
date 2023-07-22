@@ -20,6 +20,21 @@ import { useState } from 'react';
 import { UPDATE_EVENT } from '../utils/mutations';
 import dayjs from 'dayjs';
 import Auth from '../utils/auth';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { ListItem } from "@mui/material";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const StyledModal = styled(Modal) ({
     display: "flex",
@@ -129,15 +144,38 @@ const Edit = (props) => {
                 required  
                 onChange={handleChange}
                 />
-                <TextField
-                name='eventCategory'
-                value={formState.eventCategory}
-                sx={{width:"100%", marginBottom:"10px"}}
-                variant="outlined"
-                placeholder="Category"       
-                required 
-                onChange={handleChange}
-                />
+                <FormControl fullWidth >
+                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Choose a Category</ListItem>
+                  <Select
+                    name='eventCategory'
+                    value={formState.eventCategory}
+                    sx={{ width: "100%", marginBottom: "10px", color: 'gray' }}
+                    variant= "outlined"
+                    placeholder="Category"
+                    required
+                    onChange={handleChange}
+                    MenuProps={MenuProps}
+                    displayEmpty
+                    renderValue={(selected) => {
+                        if (selected.length === 0) {
+                          return <em>Category</em>;
+                        }
+                        return selected;
+                    }}
+                  >   
+                  <MenuItem disabled value=""><em>Category</em></MenuItem>          
+                  <MenuItem value={"Arts and Crafts"}>Arts and Crafts</MenuItem>
+                  <MenuItem value={"Education"}>Education</MenuItem>
+                  <MenuItem value={"Entertainment"}>Entertainment</MenuItem>
+                  <MenuItem value={"Music"}>Music</MenuItem>
+                  <MenuItem value={"Outdoors"}>Outdoors</MenuItem>
+                  <MenuItem value={"Pets"}>Pets</MenuItem>
+                  <MenuItem value={"Sports"}>Sports</MenuItem>
+                  <MenuItem value={"Social"}>Social</MenuItem>
+                  <MenuItem value={"Tech"}>Tech</MenuItem>
+                  <MenuItem value={"Trivia"}>Trivia</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                 name='eventLocation'
                 value={formState.eventLocation}
@@ -147,8 +185,9 @@ const Edit = (props) => {
                 required 
                 onChange={handleChange}
                 />
-                <DateTimePicker
-                    label="Date and Time"
+                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Date and Time</ListItem>
+                <DateTimePicker fullWidth 
+                    // label="Date and Time"
                     name='eventDate'
                     value={value}
                     sx={{marginBottom:"10px"}}
