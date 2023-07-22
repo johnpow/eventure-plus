@@ -49,33 +49,36 @@ const Register = () => {
       justifyContent="center"  
       style={{ minHeight: '100vh' }} >
         <Paper elevation={10} sx={{height: '70vh', width: 300, margin: "20px auto", padding:"20px"}}>
-          <Grid align="center" sx={{margin: "10px auto"}}>
+          <Grid align="center" sx={{margin: "10px auto 40px"}}>
             {/* <Avatar sx={{bgcolor: "primary.main"}}>
               <LockOutlinedIcon />
             </Avatar> */}
             <Typography variant="h4">Register</Typography>
           </Grid>
           <form onSubmit={handleFormSubmit}>
+          <Typography sx={{ paddingLeft: '0'}}> Username: </Typography>
             <TextField 
-            label="Username" 
             variant="standard" 
             placeholder="Enter username" 
-            sx={{margin: "10px auto"}} fullWidth required 
+            sx={{margin: "10px auto 20px"}} fullWidth required 
             name="username"
             type="text"
             value={formState.name}
             onChange={handleChange}
             />
-            <TextField label="Email" 
+            <Typography sx={{ paddingLeft: '0'}}> Email:</Typography>
+            <TextField 
             variant="standard" 
             placeholder="Enter Email" 
-            type="email" sx={{margin: "10px auto"}} 
+            type="email" sx={{margin: "10px auto 20px"}} 
             fullWidth required 
             name="email"
             value={formState.email}
             onChange={handleChange}
             />
-            <TextField label="Password" variant="standard" 
+            <Typography sx={{ paddingLeft: '0'}}> Password:</Typography>
+            <TextField 
+            variant="standard" 
             placeholder="*********" sx={{margin: "10px 0 20px 0"}} 
             fullWidth required
             name="password"
