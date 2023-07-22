@@ -9,13 +9,14 @@ import Sidebar from '../components/Sidebar';
 import { Box, CssBaseline, Typography, TextField, MenuItem, Button } from '@mui/material';
 import Add from '../components/Add';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import useStyles from '../components/styles';
 
 const Profile = () => {
   const [mode, setMode] = React.useState('light');
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
-
+  const classes = useStyles();
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -95,7 +96,11 @@ const Profile = () => {
   }
 
   return (
-    <Grid item xs={12} md={9}>
+    <Grid
+    container
+    spacing={1} 
+    className={classes.cardContainer2} 
+    >
             <Box p={2}>
               <Typography variant="h5">Viewing {user.username}'s profile.</Typography>
 

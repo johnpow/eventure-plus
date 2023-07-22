@@ -24,6 +24,29 @@ const useStyles = makeStyles((theme) => ({
   cardItem: {
     margin: theme.spacing(1), // Adjust the margin value as needed
   },
+  cardContainer2: {
+    display: 'grid',
+    gridTemplateColumns: '1fr', // One column taking up the whole width
+    marginBottom: theme.spacing(3),
+    paddingLeft: theme.spacing(20),
+    paddingRight: theme.spacing(10),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '100vw', 
+    [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: '1fr', // Switch to two columns on medium screens
+    },
+  [theme.breakpoints.down('sm')]: {
+      gridTemplateColumns: '1fr', // Switch to single column on small screens
+    },
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '1fr', // Switch to single column on extra small screens
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      paddingLeft: '0',
+    },
+  },
+
 }));
 
 export default useStyles;
