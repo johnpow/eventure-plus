@@ -53,16 +53,7 @@ const MyEvents = () => {
       });
       console.log(sortedEvents);
       return (
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Box bgcolor={'background.default'} color={'text.primary'}>
-            <Stack direction="row" spacing={2} justifyContent={'space-between'}>
-              <Sidebar 
-                    toggleColorMode={toggleColorMode} 
-                    theme={theme} 
-                    onCategorySelect={handleCategorySelect} 
-                    setShowMyEvents={setShowMyEvents}/>
-              <Add />
+        
               <Grid container spacing={3} className={classes.cardContainer}>
                 {sortedEvents.map((event) => (
                   <Grid item xs={12} sm={12} md={12} className={classes.cardItem} key={event._id}>
@@ -82,9 +73,7 @@ const MyEvents = () => {
                   </Grid>
                 ))}
               </Grid>
-            </Stack>
-          </Box>
-        </ThemeProvider>  
+             
       )
 }
 

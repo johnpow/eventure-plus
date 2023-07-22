@@ -16,7 +16,7 @@ import Auth from './utils/auth';
 
 
 // import Home from './pages/Home';
-import Home from './pages/Home3';
+import Home from './pages/Home4';
 // import Signup from './pages/Signup';
 import Signup from './pages/Register';
 // import Login from './pages/Login';
@@ -85,6 +85,7 @@ function App() {
                             <Route path="/" element={<Feed />} />
                             <Route path="/myevents" element={<MyEvents />} />
                             <Route path="/signedup" element={<UserSignup />} />
+                            <Route path="/me" element={<Profile />} />
                         </>
                     )}
                     {!Auth.loggedIn() && (

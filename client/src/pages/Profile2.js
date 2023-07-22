@@ -95,15 +95,7 @@ const Profile = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box bgcolor={'background.default'} color={'text.primary'}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
-            <Sidebar toggleColorMode={toggleColorMode} theme={theme} />
-          </Grid>
-
-          <Grid item xs={12} md={9}>
+    <Grid item xs={12} md={9}>
             <Box p={2}>
               <Typography variant="h5">Viewing {user.username}'s profile.</Typography>
 
@@ -148,11 +140,6 @@ const Profile = () => {
               )}
             </Box>
           </Grid>
-        </Grid>
-
-        <Add />
-      </Box>
-    </ThemeProvider>
   );
 };
 
