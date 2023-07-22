@@ -35,7 +35,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
             <Box position={"fixed"}>
             <List>
             <ListItem disablePadding>
-                <ListItemButton component={Link}  to="/">
+              <ListItemButton component={Link}  to="/">
                 <ListItemIcon>
                     <HomeIcon />    
                 </ListItemIcon>
@@ -59,7 +59,7 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                 </Select>
             </FormControl>
             <ListItem disablePadding>
-                <ListItemButton component={Link} to="/my-events">
+                <ListItemButton component={Link} to="/myevents">
                 {/* // onClick={() => setShowMyEvents((prevShowMyEvents) => !prevShowMyEvents)} > Toggle showMyEvents */}
                     <ListItemIcon>
                         <EventRoundedIcon />
@@ -68,12 +68,12 @@ const Sidebar = ({ toggleColorMode, theme, onCategorySelect, setShowMyEvents }) 
                 </ListItemButton>
           </ListItem>
             <ListItem disablePadding>
-                <ListItemButton component='a' href="#signedUp">
-                    <ListItemIcon>
-                        <CheckBoxRoundedIcon />    
-                    </ListItemIcon>
-                    <ListItemText primary="Signed Up" />
-                </ListItemButton>
+                <ListItemButton component={Link} to="/signedup">
+                <ListItemIcon>
+                    <CheckBoxRoundedIcon />    
+                </ListItemIcon>
+                <ListItemText primary="Signed Up" />
+               </ListItemButton>
             </ListItem>
             {/* <ListItem disablePadding>
                 <ListItemButton component='a' href="newEvent">

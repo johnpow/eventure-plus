@@ -129,8 +129,24 @@ query GetUserEvents {
 }`;
 
 export const QUERY_USER_SIGNUPS = gql`
-  query userSignups($username: String!) {
-    getUserSignups {
+query GetUserSignups {
+  getUserSignups {
+    eventText
+    eventTitle
+    _id
+    comments {
       _id
+      commentAuthor
+      commentText
+      createdAt
     }
-  }`;
+    createdAt
+    eventAuthor
+    eventCategory
+    eventDate
+    eventLocation
+    signups {
+      username
+    }
+  }
+}`;
