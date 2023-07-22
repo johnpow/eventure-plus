@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-// import Feed from '../components/Feed';
+import Feed from '../components/Feed';
+import MyEvents from './MyEvents';
 import { Box, Stack, CssBaseline, Button } from '@mui/material';
 import Add from '../components/Add';
 import Feed from './MyEvents';
@@ -12,6 +13,14 @@ import Auth from '../utils/auth';
 function Home() {
   const [mode, setMode] = useState('light');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [showMyEvents, setShowMyEvents] = useState(false);
+
+  const handleCategorySelect = (category) => {
+    setSelectedCategory(category);
+    setShowMyEvents(false);
+  };
 
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -35,11 +44,19 @@ function Home() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box bgcolor={'background.default'} color={'text.primary'}>
-        <Stack direction="row" spacing={2} justifyContent={'space-between'}>
+      <Stack direction="row" spacing={2} justifyContent={'space-between'}>
           {isLoggedIn ? (
             <>
-              <Sidebar toggleColorMode={toggleColorMode} theme={theme} />
-              <Feed />
+              <Sidebar 
+              toggleColorMode={toggleColorMode} 
+              theme={theme} 
+              onCategorySelect={handleCategorySelect} 
+              setShowMyEvents={setShowMyEvents}/>
+              {showMyEvents ? ( // Conditionally render MyEvents or Feed based on showMyEvents
+                <MyEvents />
+              ) : (
+                <Feed selectedCategory={selectedCategory} />
+              )}
             </>
           ) : (
             <img src={EventureBG} alt="Eventure Background" />
