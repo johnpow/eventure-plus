@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import Feed from '../components/Feed';
+// import Feed from '../components/Feed';
 import { Box, Stack, CssBaseline, Button } from '@mui/material';
 import Add from '../components/Add';
+import Feed from './MyEvents';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import EventureBG from '../images/cards/eventureBG.png';
 import Auth from '../utils/auth';
