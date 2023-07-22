@@ -1,19 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
-import ThoughtForm from '../components/ThoughtForm';
-import ThoughtList from '../components/ThoughtList';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
+import { UPDATE_USER } from '../utils/mutations'; // Import the UPDATE_USER mutation
 import Auth from '../utils/auth';
-
-
+import Grid from '@mui/material/Grid';
 import Sidebar from '../components/Sidebar';
-import { Box, Stack, CssBaseline  } from '@mui/material';
+import { Box, CssBaseline, Typography, TextField, MenuItem, Button } from '@mui/material';
 import Add from '../components/Add';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const Profile = () => {
-
   const [mode, setMode] = React.useState('light');
   const toggleColorMode = () => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
@@ -30,13 +27,57 @@ const Profile = () => {
   );
 
   const { username: userParam } = useParams();
-
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
   });
 
   const user = data?.me || data?.user || {};
-  // navigate to personal profile page if username is yours
+
+  // State variables for bio, city, and edit mode
+  const [bio, setBio] = React.useState('');
+  const [selectedCity, setSelectedCity] = React.useState('');
+  const [editMode, setEditMode] = React.useState(false);
+
+  // GraphQL mutation for updating user's bio and city
+  const [updateUser] = useMutation(UPDATE_USER, {
+    refetchQueries: [{ query: QUERY_USER, variables: { username: userParam } }],
+  });
+
+  useEffect(() => {
+    // Set the local state with the latest data from the server after the data is fetched
+    setBio(user.bio || '');
+    setSelectedCity(user.city || '');
+  }, [user.bio, user.city]);
+
+  const handleBioChange = (event) => {
+    setBio(event.target.value);
+  };
+
+  const handleCityChange = (event) => {
+    setSelectedCity(event.target.value);
+  };
+
+  const handleEdit = () => {
+    setEditMode(true);
+  };
+
+  const handleSave = () => {
+    updateUser({
+      variables: {
+        username: user.username,
+        email: user.email,
+        bio: bio,
+        city: selectedCity,
+      },
+      onCompleted: (data) => {
+        // Update the local state with the latest data from the server
+        setBio(data.updateUser.bio);
+        setSelectedCity(data.updateUser.city);
+      },
+    });
+    setEditMode(false);
+  };
+
   if (Auth.loggedIn() && Auth.getProfile().data.username === userParam) {
     return <Navigate to="/me" />;
   }
@@ -48,45 +89,69 @@ const Profile = () => {
   if (!user?.username) {
     return (
       <h4>
-        You need to be logged in to see this. Use the navigation links above to
-        sign up or log in!
+        You need to be logged in to see this. Use the navigation links above to sign up or log in!
       </h4>
     );
   }
 
   return (
-    <ThemeProvider  theme={theme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box bgcolor={"background.default"} color={"text.primary"} >
-        
-        
-          
-            <div flex-row justify-center mb-3>
-              <h2   justifyContent={"center"}>
-                Viewing {user.username}'s profile.
-              </h2>
-              {/* <div className="col-12 col-md-10 mb-5">
-                <ThoughtList
-                  thoughts={user.thoughts}
-                  title={`${user.username}'s thoughts...`}
-                  showTitle={false}
-                  showUsername={false}
-                />
-              </div>
-              {!userParam && (
-                <div
-                  className="col-12 col-md-10 mb-3 p-3"
-                  style={{ border: '1px dotted #1a1a1a' }}
-                >
-                  <ThoughtForm />
-                </div>
-              )} */}
-            </div>
-          
-            <Sidebar toggleColorMode={toggleColorMode} theme={theme}/>
-          <Add />
+      <Box bgcolor={'background.default'} color={'text.primary'}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={3}>
+            <Sidebar toggleColorMode={toggleColorMode} theme={theme} />
+          </Grid>
+
+          <Grid item xs={12} md={9}>
+            <Box p={2}>
+              <Typography variant="h5">Viewing {user.username}'s profile.</Typography>
+
+              {/* Bio */}
+              <Typography variant="h6">Bio:</Typography>
+              <TextField
+                multiline
+                fullWidth
+                rows={4}
+                value={bio}
+                onChange={handleBioChange}
+                variant="outlined"
+                disabled={!editMode} // Disable the input when not in edit mode
+              />
+
+              {/* Select City */}
+              <Typography variant="h6">Select City:</Typography>
+              <TextField
+                select
+                fullWidth
+                value={selectedCity}
+                onChange={handleCityChange}
+                variant="outlined"
+                disabled={!editMode} // Disable the input when not in edit mode
+              >
+                <MenuItem value="Seattle, WA">Seattle, WA</MenuItem>
+                <MenuItem value="New York, NY">New York, NY</MenuItem>
+                <MenuItem value="Los Angeles, CA">Los Angeles, CA</MenuItem>
+                <MenuItem value="Miami, FL">Miami, FL</MenuItem>
+                <MenuItem value="No preference">No preference</MenuItem>
+              </TextField>
+
+              {/* Edit and Save Buttons */}
+              {editMode ? (
+                <Button variant="contained" color="primary" onClick={handleSave}>
+                  Save
+                </Button>
+              ) : (
+                <Button variant="contained" color="primary" onClick={handleEdit}>
+                  Edit
+                </Button>
+              )}
+            </Box>
+          </Grid>
+        </Grid>
+
+        <Add />
       </Box>
-      
     </ThemeProvider>
   );
 };

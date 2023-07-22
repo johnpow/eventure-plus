@@ -125,3 +125,13 @@ export const ADD_EVENT_COMMENT = gql`
       }
     }
   }`;
+
+  export const UPDATE_USER = gql`
+  mutation UpdateUser($username: String!, $email: String!, $bio: String!, $city: String!) {
+    updateUser(username: $username, email: $email, bio: $bio, city: $city) {
+      username
+      email
+      bio
+      city
+    }
+  }`;

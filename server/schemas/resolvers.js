@@ -79,6 +79,26 @@ const resolvers = {
 
       return { token, user };
     },
+    updateUser: async (parent, { username, email, bio, city }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          {
+            $set: {
+              username,
+              email,
+              bio,
+              city,
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
     addThought: async (parent, { thoughtText }, context) => {
       if (context.user) {
         const thought = await Thought.create({
