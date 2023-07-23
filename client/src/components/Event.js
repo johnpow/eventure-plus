@@ -15,7 +15,6 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CampingImg from '../images/cards/Camping.png';
 import { Checkbox, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
@@ -28,6 +27,20 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import Edit from './Edit';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Button } from '@mui/material';
+
+
+import ArtsAndCraftsImg from '../images/cards/ArtsandCrafts.png';
+import EducationImg from '../images/cards/Education.png';
+import EntertainmentImg from '../images/cards/Entertainment.png';
+import BoardgamesImg from '../images/cards/Boardgames.png';
+import MusicImg from '../images/cards/Music.png';
+import OutdoorsImg from '../images/cards/Outdoors.png';
+import PetsImg from '../images/cards/Pets.png';
+import SocialImg from '../images/cards/Social.png';
+import SportsImg from '../images/cards/Sports.png';
+import TechImg from '../images/cards/Tech.png';
+import defaultImg from '../images/cards/defaultImg.png';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -132,9 +145,21 @@ const Event = (props) => {
       />
       <CardMedia
         component="img"
-        height="194"
-        image= {CampingImg}
-        alt="event image"
+        height="220"
+        image={
+          props.category === 'Arts and Crafts' ? ArtsAndCraftsImg :
+          props.category === 'Education' ? EducationImg :
+          props.category === 'Entertainment' ? EntertainmentImg :
+          props.category === 'Music' ? MusicImg :
+          props.category === 'Outdoors' ? OutdoorsImg :
+          props.category === 'Pets' ? PetsImg :
+          props.category === 'Social' ? SocialImg :
+          props.category === 'Sports' ? SportsImg :
+          props.category === 'Tech' ? TechImg :
+          props.category === 'Boardgames' ? BoardgamesImg :
+          defaultImg 
+         } 
+       alt="event image"
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">

@@ -178,7 +178,7 @@ const Add = () => {
                 />
 
                 <FormControl fullWidth >
-                <ListItem sx={{marginBottom: '10px', marginLeft: '2px'}}>Choose a Category</ListItem>
+                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Choose a Category</ListItem>
                   <Select
                     name='eventCategory'
                     value={formState.eventCategory}
