@@ -67,7 +67,7 @@ const ExpandedCard = ({eventId, comments}) => {
           <Container>
             <Typography sx={{ marginBottom: '15px' }} variant='h6'>Comments</Typography>
             {comments.map((comment, index) => (
-              <Card elevation={3} sx={{ maxWidth: 300, marginBottom: '15px', borderRadius: '1rem' }}>
+              <Card elevation={3} sx={{ maxWidth: 300, marginBottom: '15px', borderRadius: '1rem' }} key = {index} >
                 <CardHeader sx={{ marginBottom: '0' }}
                   avatar={
                   <Avatar sx={{ bgcolor: red[500] }} aria-label="commenter profile image">
