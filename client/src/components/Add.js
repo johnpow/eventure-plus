@@ -75,7 +75,7 @@ const Add = () => {
         update(cache, { data: { addEvent } }) {
             try {
                 const { events } = cache.readQuery({ query: QUERY_EVENTS });
-                const updatedAddEvent = { ...addEvent, signups: [] };
+                const updatedAddEvent = { ...addEvent, signups: [{_id: Auth.getUserId(), username: Auth.getUsername()}], comments: [], };
                 cache.writeQuery({
                   query: QUERY_EVENTS,
                   data: { events: [updatedAddEvent, ...events] },

@@ -149,6 +149,7 @@ query GetUserSignups {
     eventState
     eventCity
     signups {
+      _id
       username
     }
   }
