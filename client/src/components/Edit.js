@@ -24,6 +24,7 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ListItem } from "@mui/material";
+import statesAndCities from './statesAndCities'; 
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -50,6 +51,18 @@ const UserBox = styled(Box)(({ theme }) => ({
 }))
 
 const Edit = (props) => {
+
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+
+    const handleStateChange = (event) => {
+      setSelectedState(event.target.value);
+      setSelectedCity(''); // Reset the selected city when the state changes
+    };
+    const handleCityChange = (event) => {
+      setSelectedCity(event.target.value);
+    };
+
     const [open, setOpen] = useState(props.open);
     const [value, setValue] = useState(dayjs.unix(props.date/1000));
     const [formState, setFormState] = useState({
@@ -57,7 +70,8 @@ const Edit = (props) => {
         eventTitle: props.title,
         eventText: props.description,
         eventAuthor: props.author,
-        eventLocation: props.location,
+        eventState: props.state,
+        eventCity: props.city,
         eventDate: props.date,
         eventCategory: props.category,
       });
@@ -94,8 +108,6 @@ const Edit = (props) => {
         });
     };
 
-      
-      
     return (
         <>  
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -176,15 +188,42 @@ const Edit = (props) => {
                   <MenuItem value={"Trivia"}>Trivia</MenuItem>
                   </Select>
                 </FormControl>
-                <TextField
-                name='eventLocation'
-                value={formState.eventLocation}
-                sx={{width:"100%", marginBottom:"10px"}}
-                variant="outlined"
-                placeholder="Location"                
-                required 
-                onChange={handleChange}
-                />
+                <FormControl fullWidth sx={{ marginBottom: '10px' }}>
+                    <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Location</ListItem>
+                    <Select
+                      value={selectedState}
+                      onChange={handleStateChange}
+                      displayEmpty
+                    >
+                      <MenuItem value="" disabled>
+                        Select State
+                      </MenuItem>
+                      {Object.keys(statesAndCities).map((state) => (
+                        <MenuItem key={state} value={state}>
+                          {state}
+                        </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                {selectedState && (
+                  <FormControl fullWidth sx={{ marginBottom: '10px' }}>
+                    <Select
+                      value={selectedCity}
+                      onChange={handleCityChange}
+                      displayEmpty
+                    >
+                      <MenuItem value="" disabled>
+                        Select City
+                      </MenuItem>
+                      {statesAndCities[selectedState].map((city) => (
+                        <MenuItem key={city} value={city}>
+                          {city}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
                 <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Date and Time</ListItem>
                 <DateTimePicker fullWidth 
                     // label="Date and Time"
