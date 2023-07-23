@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { useMutation } from '@apollo/client';
-import { ADD_EVENT_COMMENT, REMOVE_COMMENT } from '../utils/mutations';
+import { ADD_EVENT_COMMENT, REMOVE_EVENT_COMMENT } from '../utils/mutations';
 import { Container } from '@mui/material';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
@@ -14,36 +14,39 @@ import { red } from '@mui/material/colors';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-
+import Auth from '../utils/auth';
 
 
 
 const ExpandedCard = ({eventId, comments}) => {
   const [comment, setComment] = useState('');
   const [addEventComment, { error }] = useMutation(ADD_EVENT_COMMENT);
-  const [removeComment, { error3 }] = useMutation(REMOVE_COMMENT);
-  const [dialogOpen, setDialogOpen] = useState(false);
+  const [removeEventComment, { error3 }] = useMutation(REMOVE_EVENT_COMMENT);
+  const [openDialog, setOpenDialog] = useState(false);
 
-  const handleSaveComment = () => {
-    console.log(comment);
-    console.log("I am in handleSaveComment");
-    console.log(eventId);
-    addEventComment({
-        variables: { eventId: eventId, commentText: comment },
-    });
-    window.location.reload();
-    setComment('');
-  };
-
-  const handleDelete = (commentId) => {
+  const handleSaveComment = async () => {
     try {
-      removeComment({
-        variables: { commentId: commentId },
+      const { data } = await addEventComment({
+        variables: { eventId: eventId, commentText: comment },
       });
-      window.location.reload();
     } catch (error) {
       console.error(error);
     }
+    // window.location.reload();
+    setComment('');
+  };
+
+  const handleDeleteComment = async (event) => {
+    const id = event.currentTarget.id;
+    try {
+      await removeEventComment({
+        variables: { eventId: eventId, commentId: id },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    setOpenDialog(false);
+    // window.location.reload();
   };
   
 
@@ -83,10 +86,12 @@ const ExpandedCard = ({eventId, comments}) => {
                   </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                <IconButton aria-label="delete" onClick={()=>setDialogOpen(true)}>
+                {comment.commentAuthor === Auth.getUsername() && (
+                  <IconButton aria-label="delete" id={comment._id} onClick={()=>setOpenDialog(true)}>
                   <DeleteTwoToneIcon />
                 </IconButton>
-                <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+                )}
+                <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
                   <DialogTitle>Delete Confirmation</DialogTitle>
                   <DialogContent>
                     <DialogContentText>
@@ -94,10 +99,10 @@ const ExpandedCard = ({eventId, comments}) => {
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
-                    <Button onClick={() => setDialogOpen(false)} color="primary">
+                    <Button onClick={() => setOpenDialog(false)} color="primary">
                       Cancel
                     </Button>
-                    <Button onClick={handleDelete} color="secondary" autoFocus>
+                    <Button id={comment._id} onClick={handleDeleteComment} color="secondary" autoFocus>
                       Delete
                     </Button>
                   </DialogActions>
