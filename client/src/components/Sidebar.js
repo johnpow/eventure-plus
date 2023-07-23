@@ -55,7 +55,6 @@ const Sidebar = ({ toggleColorMode, theme }) => {
             </FormControl>
             <ListItem >
                 <ListItemButton component={Link} to="/myevents">
-                {/* // onClick={() => setShowMyEvents((prevShowMyEvents) => !prevShowMyEvents)} > Toggle showMyEvents */}
                     <ListItemIcon>
                         <EventRoundedIcon />
                     </ListItemIcon>
@@ -70,14 +69,6 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                 <ListItemText primary="Signed Up" />
                </ListItemButton>
             </ListItem>
-            {/* <ListItem disablePadding>
-                <ListItemButton component='a' href="newEvent">
-                <ListItemIcon>
-                    <AddRoundedIcon />    
-                </ListItemIcon>
-                <ListItemText primary="New Event" />
-                </ListItemButton>
-            </ListItem> */}
             <ListItem >
                 <ListItemButton component='a' href="me" >
                 <ListItemIcon>

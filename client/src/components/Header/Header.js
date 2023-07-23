@@ -5,6 +5,8 @@ import { styled } from "@mui/material";
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import Auth from '../../utils/auth';
 import { Link } from 'react-router-dom';
+import Sidebar from  '../Sidebar';
+import MenuIcon from '@mui/icons-material/Menu';
 
 
 
@@ -39,7 +41,7 @@ const Header = () => {
               >
               Eventure
             </Typography>
-            <EventRoundedIcon sx={{ display: {xs: "block", sm: "none"}}}/>
+            {/* <EventRoundedIcon sx={{ display: {xs: "block", sm: "none"}}}/> */}
             <div>
           {Auth.loggedIn() ? (
             <>
