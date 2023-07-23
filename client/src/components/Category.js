@@ -16,13 +16,18 @@ const Category = () => {
     const events = data?.getEventsByCategory || [];
     const classes = useStyles();
 
-    // Sort events by eventDate
-    const sortedEvents = [...events].sort((a, b) => {
-        const dateA = new Date(a.eventDate * 1000);
-        const dateB = new Date(b.eventDate * 1000);
-        return dateA - dateB;
-      });
+    const now = Date.now(); 
 
+    const sortedEvents = [...events]
+      .filter(event => {
+        return event.eventDate >= now; 
+      })
+      .sort((a, b) => {
+        const dateA = a.eventDate;
+        const dateB = b.eventDate;
+        return dateA - dateB; 
+      });
+      
     return (
     <Grid container spacing={3} className={classes.cardContainer}>
         {sortedEvents.map((event) => (
