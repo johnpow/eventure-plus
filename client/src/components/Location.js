@@ -1,19 +1,20 @@
 import { Grid } from "@mui/material";
 import Post2 from "./Post2";
-import { QUERY_EVENTS_BY_CATEGORY } from '../utils/queries';
+import { QUERY_EVENTS_BY_STATE_AND_CITY } from '../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
 import useStyles from './styles';
 import { useParams } from 'react-router-dom';
 
-const Category = () => {
+const Location = () => {
     const userId = Auth.getUserId();
-    const { category } = useParams();
+    const { city } = useParams();
+    const { state } = useParams();
 
-    const { loading, data } = useQuery(QUERY_EVENTS_BY_CATEGORY, {
-        variables: { eventCategory: category },
+    const { loading, data } = useQuery(QUERY_EVENTS_BY_STATE_AND_CITY, {
+        variables: { eventState: state, eventCity: city },
       });
-    const events = data?.getEventsByCategory || [];
+    const events = data?.getEventsByStateAndCity || [];
     const classes = useStyles();
 
     const now = Date.now(); 
@@ -53,4 +54,4 @@ const Category = () => {
     )
 }
 
-export default Category;
+export default Location;

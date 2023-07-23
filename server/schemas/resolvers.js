@@ -65,8 +65,20 @@ const resolvers = {
         return events;
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+
+    getEventsByStateAndCity: async (parent, { eventState, eventCity }, context) => {
+      if (context.user) {
+        // Retrieve the events for the specified state and city
+        const events = await Event.find({ eventState: eventState, eventCity: eventCity }).populate('signups');
+        return events;
+      }
+      throw new AuthenticationError('You need to be logged in!');
     }
   },
+
+    
+
 
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
@@ -177,14 +189,15 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    addEvent: async (parent, { eventText, eventTitle, eventDate, eventLocation, eventCategory }, context) => {
+    addEvent: async (parent, { eventText, eventTitle, eventDate, eventState, eventCity, eventCategory }, context) => {
       if (context.user) {
         const event = await Event.create({
           eventText,
           eventTitle,
           eventAuthor: context.user.username,
           eventDate,
-          eventLocation,
+          eventState,
+          eventCity,
           eventCategory,
           signups: [{_id: context.user._id, username: context.user.username}],
         });
@@ -198,7 +211,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    updateEvent: async (parent, { eventId, eventText, eventTitle, eventDate, eventLocation, eventCategory }, context) => {
+    updateEvent: async (parent, { eventId, eventText, eventTitle, eventDate, eventState, eventCity, eventCategory }, context) => {
       if (context.user) {
         return Event.findOneAndUpdate(
           { _id: eventId },
@@ -207,7 +220,8 @@ const resolvers = {
               eventText,
               eventTitle,
               eventDate,
-              eventLocation,
+              eventState,
+              eventCity,
               eventCategory,
             },
           },

@@ -56,32 +56,40 @@ export const ADD_COMMENT = gql`
 `;
 
 export const ADD_EVENT = gql` 
-mutation AddEvent($eventText: String!, $eventTitle: String!, $eventDate: String!, $eventLocation: String!, $eventCategory: String!) {
-  addEvent(eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventLocation: $eventLocation, eventCategory: $eventCategory) {
+mutation AddEvent($eventText: String!, $eventTitle: String!, $eventDate: String!, $eventState: String!, $eventCity: String!, $eventCategory: String!) {
+  addEvent(eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventState: $eventState, eventCity: $eventCity, eventCategory: $eventCategory) {
     _id
     createdAt
     eventAuthor
     eventCategory
     eventDate
-    eventLocation
+    eventState
+    eventCity
     eventText
     eventTitle
   }
 }`;
 
 export const UPDATE_EVENT = gql`
-mutation UpdateEvent($eventId: ID!, $eventText: String!, $eventTitle: String!, $eventDate: String!, $eventLocation: String!, $eventCategory: String!) {
-  updateEvent(eventId: $eventId, eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventLocation: $eventLocation, eventCategory: $eventCategory) {
+mutation UpdateEvent($eventId: ID!, $eventText: String!, $eventTitle: String!, $eventDate: String!, $eventState: String!, $eventCity: String! $eventCategory: String!) {
+  updateEvent(eventId: $eventId, eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventState: $eventState, eventCity: $eventCity, eventCategory: $eventCategory) {
     _id
     eventTitle
     eventText
     eventAuthor
-    eventLocation
+    eventState
+    eventCity
     eventDate
     eventCategory
     signups {
       _id
       username
+    }
+    comments {
+      _id
+      commentAuthor
+      commentText
+      createdAt
     }
   }
 }`;
