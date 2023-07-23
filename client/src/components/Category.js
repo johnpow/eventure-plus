@@ -43,6 +43,7 @@ const Category = () => {
             createdAt={event.createdAt}
             category={event.eventCategory}
             comments={event.comments}
+            signups={event.signups}
             checked={event.signups.some((signup) => signup.username === Auth.getUsername())}
             />
         </Grid>

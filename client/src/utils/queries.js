@@ -169,6 +169,7 @@ query GetEventsByCategory($eventCategory: String!) {
     eventDate
     eventLocation
     signups {
+      _id
       username
     }
   }
