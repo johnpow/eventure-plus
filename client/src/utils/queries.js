@@ -89,7 +89,8 @@ export const QUERY_EVENTS = gql`
       eventAuthor
       eventCategory
       eventDate
-      eventLocation
+      eventState
+      eventCity
       eventText
       eventTitle
       signups {
@@ -113,7 +114,8 @@ query GetUserEvents {
     eventText
     eventCategory
     eventDate
-    eventLocation
+    eventState
+    eventCity
     eventTitle
     signups {
       _id
@@ -144,7 +146,8 @@ query GetUserSignups {
     eventAuthor
     eventCategory
     eventDate
-    eventLocation
+    eventState
+    eventCity
     signups {
       username
     }
@@ -167,10 +170,37 @@ query GetEventsByCategory($eventCategory: String!) {
     eventAuthor
     eventCategory
     eventDate
-    eventLocation
+    eventState
+    eventCity
     signups {
       _id
       username
     }
   }
 }`;
+
+export const QUERY_EVENTS_BY_STATE_AND_CITY = gql`
+  query GetEventsByStateAndCity($eventState: String!, $eventCity: String!) {
+    getEventsByStateAndCity(eventState: $eventState, eventCity: $eventCity) {
+      eventText
+      eventTitle
+      _id
+      comments {
+        _id
+        commentAuthor
+        commentText
+        createdAt
+      }
+      createdAt
+      eventAuthor
+      eventCategory
+      eventDate
+      eventState
+      eventCity
+      signups {
+        _id
+        username
+      }
+    }
+  }
+`;

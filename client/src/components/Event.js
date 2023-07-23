@@ -166,7 +166,7 @@ const Event = (props) => {
         <Typography variant="body2" color="text.secondary" marginBottom={2}>
           {props.description}
         </Typography>
-        <Typography paragraph><b>Location: </b> {props.location}</Typography>
+        <Typography paragraph><b>Location: </b> {props.state}, {props.city}</Typography>
         <Typography paragraph><b>Category: </b> {props.category}</Typography>
       </CardContent>
       <CardActions disableSpacing>

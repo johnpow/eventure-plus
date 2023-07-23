@@ -20,6 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ListItem } from "@mui/material";
+import statesAndCities from './statesAndCities'; 
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,13 +47,26 @@ const UserBox = styled(Box)(({ theme }) => ({
 }))
 
 const Add = () => {
+
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+
+    const handleStateChange = (event) => {
+      setSelectedState(event.target.value);
+      setSelectedCity(''); // Reset the selected city when the state changes
+    };
+    const handleCityChange = (event) => {
+      setSelectedCity(event.target.value);
+    };
+
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState(null);
     const [formState, setFormState] = useState({
         eventTitle: '',
         eventText: '',
         eventAuthor: '',
-        eventLocation: '',
+        eventState: '',
+        eventCity: '',
         eventDate: '',
         eventCategory: '',
       });
@@ -79,7 +93,8 @@ const Add = () => {
                     eventTitle: formState.eventTitle,
                     eventText: formState.eventText,
                     eventAuthor: formState.eventAuthor,
-                    eventLocation: formState.eventLocation,
+                    eventState: selectedState,
+                    eventCity: selectedCity,
                     eventDate: formState.eventDate,
                     eventCategory: formState.eventCategory,
                 },
@@ -89,7 +104,8 @@ const Add = () => {
                 eventTitle: '',
                 eventText: '',
                 eventAuthor: '',
-                eventLocation: '',
+                eventState: '',
+                eventCity: '',
                 eventDate: '',
                 eventCategory: '',
             });
@@ -104,7 +120,8 @@ const Add = () => {
           eventTitle: '',
           eventText: '',
           eventAuthor: '',
-          eventLocation: '',
+          eventState: '',
+          eventCity: '',
           eventDate: '',
           eventCategory: '',
         });
@@ -131,7 +148,7 @@ const Add = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Tooltip 
             title="Create New Event" 
-            sx={{position:"fixed", bottom:20, left:{xs:"calc(50% - 25px)", md:30}}}
+            sx={{position:"fixed", bottom:20, right:{xs:"calc(50% - 25px)", md:30}}}
             onClick={() => setOpen(true)}
             >
                 <Fab color="primary" aria-label="add">
@@ -178,7 +195,7 @@ const Add = () => {
                 />
 
                 <FormControl fullWidth >
-                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Choose a Category</ListItem>
+                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Category</ListItem>
                   <Select
                     name='eventCategory'
                     value={formState.eventCategory}
@@ -206,10 +223,48 @@ const Add = () => {
                     <MenuItem value={"Sports"}>Sports</MenuItem>
                     <MenuItem value={"Social"}>Social</MenuItem>
                     <MenuItem value={"Tech"}>Tech</MenuItem>
-                    <MenuItem value={"Trivia"}>Trivia</MenuItem>
+                    <MenuItem value={"Boardgames"}>Boardgames</MenuItem>
                   </Select>
                 </FormControl>
-                <TextField
+
+                <FormControl fullWidth sx={{ marginBottom: '10px' }}>
+                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Location</ListItem>
+                <Select
+                  value={selectedState}
+                  onChange={handleStateChange}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Select State
+                  </MenuItem>
+                  {Object.keys(statesAndCities).map((state) => (
+                    <MenuItem key={state} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
+                </Select>
+            </FormControl>
+
+            {selectedState && (
+              <FormControl fullWidth sx={{ marginBottom: '10px' }}>
+                <Select
+                  value={selectedCity}
+                  onChange={handleCityChange}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Select City
+                  </MenuItem>
+                  {statesAndCities[selectedState].map((city) => (
+                    <MenuItem key={city} value={city}>
+                      {city}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+
+                {/* <TextField
                 name='eventLocation'
                 value={formState.eventLocation}
                 sx={{width:"100%", marginBottom:"10px"}}
@@ -217,7 +272,7 @@ const Add = () => {
                 placeholder="Location"                
                 required 
                 onChange={handleChange}
-                />
+                /> */}
                 <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Date and Time</ListItem>
                 <DateTimePicker fullWidth 
                     sx={{ marginBottom:"10px" }}

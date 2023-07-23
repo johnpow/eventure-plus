@@ -130,7 +130,7 @@ const Post2 = (props) => {
         <Typography variant="body2" color="text.secondary"  marginBottom={2}>
           {props.description}
         </Typography>
-        <Typography paragraph><b>Location: </b> {props.location}</Typography>
+        <Typography paragraph><b>Location: </b> {props.city}, {props.state}</Typography>
         <Typography paragraph><b>Category: </b> {props.category}</Typography>
       </CardContent>
       <CardActions disableSpacing>

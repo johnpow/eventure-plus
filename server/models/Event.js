@@ -25,7 +25,15 @@ const eventSchema = new Schema({
     type: Date,
     required: true,
   },
-  eventLocation: {
+  // eventLocation: {
+  //   type: String,
+  //   required: true,
+  // },
+  eventState: {
+    type: String,
+    required: true,
+  },
+  eventCity: {
     type: String,
     required: true,
   },

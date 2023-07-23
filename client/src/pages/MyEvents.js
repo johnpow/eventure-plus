@@ -68,7 +68,8 @@ const MyEvents = () => {
                       title={event.eventTitle}
                       description={event.eventText}
                       date={event.eventDate}
-                      location={event.eventLocation}
+                      state={event.eventState}
+                      city={event.eventCity}
                       createdAt={event.createdAt}
                       category={event.eventCategory}
                       comments={event.comments}

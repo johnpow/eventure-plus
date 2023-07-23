@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -8,20 +8,44 @@ import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-
+import statesAndCities from './statesAndCities'; 
 
 const Sidebar = ({ toggleColorMode, theme }) => {
+
+
+    const navigate = useNavigate();
+    const [selectedState, setSelectedState] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+
+    const handleStateChange = (event) => {
+      setSelectedState(event.target.value);
+      setSelectedCity(''); // Reset the selected city when the state changes
+    };
+
+    const handleCityChange = (event) => {
+      setSelectedCity(event.target.value);
+    };
+
     const [selectedCategory, setSelectedCategory] = useState('All');
   
     const handleCategoryChange = (event) => {
         console.log(event.target.value);
       setSelectedCategory(event.target.value);
     };
+
+
+    const handleStateAndCitySearch = () => {
+        if (selectedState && selectedCity) {
+          navigate(`/location/${selectedState}/${selectedCity}`);
+          setSelectedState('');
+          setSelectedCity('');
+        }
+      };
 
     return (
         <Box  
@@ -37,8 +61,8 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                 <ListItemText primary="Homepage" />
                 </ListItemButton>
             </ListItem>
-            <FormControl sx={{ marginBottom: '10px', marginLeft: '15px', minWidth: 150 }}>
-            <ListItem>Search by Category</ListItem>
+            <FormControl sx={{ marginLeft: '30px', marginBottom: '10px' }}>
+            <ListItem sx={{ paddingLeft: '0' }}>Search by Category</ListItem>
                 <Select value={selectedCategory} onChange={handleCategoryChange}>
                   <MenuItem value="All" component={Link} to="/category/All">All</MenuItem>
                   <MenuItem value={"Arts and Crafts"} component={Link} to="/category/Arts and Crafts">Arts and Crafts</MenuItem>
@@ -53,6 +77,47 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                   <MenuItem value={"Trivia"} component={Link} to="/category/Trivia">Trivia</MenuItem>
                 </Select>
             </FormControl>
+
+            <FormControl  sx={{ display: 'block', marginBottom: '10px', marginLeft: '30px' }}>
+                <ListItem sx={{ paddingLeft: '0' }}>Search by Location</ListItem>
+                <Select
+                  value={selectedState}
+                  onChange={handleStateChange}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Select State
+                  </MenuItem>
+                  {Object.keys(statesAndCities).map((state) => (
+                    <MenuItem key={state} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
+                </Select>
+            </FormControl>
+
+            {selectedState && (
+              <FormControl sx={{ display: 'block', marginBottom: '10px', marginLeft: '30px' }}>
+                <Select
+                  value={selectedCity}
+                  onChange={handleCityChange}
+                  displayEmpty
+                >
+                  <MenuItem value="" disabled>
+                    Select City
+                  </MenuItem>
+                  {statesAndCities[selectedState].map((city) => (
+                    <MenuItem key={city} value={city}>
+                      {city}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+            <Button variant="contained" onClick={handleStateAndCitySearch} sx={{ display: 'block', marginLeft: '30px', marginBottom: '10px' }}>
+                Search
+            </Button>
+
             <ListItem >
                 <ListItemButton component={Link} to="/myevents">
                     <ListItemIcon>
