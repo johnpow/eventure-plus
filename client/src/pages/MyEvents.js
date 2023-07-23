@@ -45,5 +45,5 @@ const MyEvents = () => {
                 ))}
               </Grid>             
       )
-
+}
 export default MyEvents;
