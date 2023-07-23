@@ -1,7 +1,7 @@
 # Eventure (MERN application)
 
 ## Description
-Eventure is a mulit-city event planning and discovery website, designed to ignite your passion for exploration and adventure. With a curated selection of happenings accross 4 unique cities (Seattle, WA | New York, NY | Los Angeles, CA | Miami, FL), it seamlessly connects you to captivating experiences. Whether you seek concerts, social gatherings, or art exhibitions, Eventure guides you towards memorable encounters, making your journey truly unforgettable. This is a new release of our original [Eventure app](https://eventure.herokuapp.com/) | [Github](https://github.com/johnpow/eventure), but now using the GraphQL API built with Apollo Server and MERN stack (MongoDB, Express.js, React, Node.js).
+Eventure is a mulit-city event planning and discovery website, designed to ignite your passion for exploration and adventure. With a curated selection of happenings accross 4 unique cities (Seattle, WA | New York, NY | Los Angeles, CA | Miami, FL), it seamlessly connects you to captivating experiences. Whether you seek concerts, social gatherings, or art exhibitions, Eventure guides you towards memorable encounters, making your journey truly unforgettable. This is the [new release](https://eventure-plus-305de46556b9.herokuapp.com/) of our original [Eventure app](https://eventure.herokuapp.com/) | [Github](https://github.com/johnpow/eventure), but now using the GraphQL API built with Apollo Server and MERN stack (MongoDB, Express.js, React, Node.js).
 
 ## Table of Contents
 - [Usage](#usage)
@@ -11,7 +11,7 @@ Eventure is a mulit-city event planning and discovery website, designed to ignit
 - [Access](#access)
 
 ## Usage
-- To use the site you will need to go to the [Eventure](https://eventure-plus.herokuapp.com/) and create an account!
+- To use the site you will need to go to the [Eventure](https://eventure-plus-305de46556b9.herokuapp.com/) and create an account!
 - You can then explore the various events in your area by topic
 - If you want to join, you click the sign-up icon
 - If plans change, you can always "Drop Event" by re-clicking the signup icon
@@ -62,8 +62,8 @@ This was a group effort of [@johnpow](https://github.com/johnpow), [@Arbitrary_S
 - Leave comments and communicate with other Eventurers! 
 
 ## Access
-[Click to View Repository](https://github.com/johnpow/eventure-plue)
+[Click to View Repository](https://github.com/johnpow/eventure-plus)
 
-[Click for the Live Project](https://eventure-plus.herokuapp.com/)
+[Click for the Live Project](https://eventure-plus-305de46556b9.herokuapp.com/)
 
 [Video Demo Link](https://drive.google.com/file/d/191xIH6JHY_l3xdmr7V9RSJ6Z-oLxmGKK/view)
