@@ -42,6 +42,8 @@ const Feed = () => {
                 createdAt={event.createdAt}
                 category={event.eventCategory}
                 checked={event.signups.some((signup) => signup._id === userId)}
+                comments={event.comments}
+                signups={event.signups}
               />
             </Grid>
           ))}

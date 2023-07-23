@@ -68,6 +68,7 @@ const MyEvents = () => {
                       createdAt={event.createdAt}
                       category={event.eventCategory}
                       comments={event.comments}
+                      signups={event.signups}
                       checked
                     />
                   </Grid>

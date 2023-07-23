@@ -21,6 +21,9 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_SIGNUP, REMOVE_SIGNUP } from '../utils/mutations';
 import dayjs from 'dayjs';
+import ExpandedCard from './CommentDialog';
+import InsertCommentTwoToneIcon from '@mui/icons-material/InsertCommentTwoTone';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 const ExpandMore = styled((props) => {
@@ -40,13 +43,20 @@ const formatDate = (dateValue) => {
   };
 
 const Post2 = (props) => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [addSignup, { error }] = useMutation(ADD_SIGNUP);
   const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP);
   const [checked, setChecked] = useState(props.checked);
+  const [expandedPostId, setExpandedPostId] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleExpandCard = (postId) => {
+    setExpandedPostId(postId);
+    setOpen(!open);
   };
 
   const handleSignUp = (event) => {
@@ -95,24 +105,34 @@ const Post2 = (props) => {
         alt="event image"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary"  marginBottom={2}>
           {props.description}
         </Typography>
+        <Typography paragraph><b>Location: </b> {props.location}</Typography>
+        <Typography paragraph><b>Category: </b> {props.category}</Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="share">
           <Tooltip title="Sign Up">
-              <Checkbox 
+          <FormControlLabel 
+          label={props.signups.length} 
+          control={
+            <Checkbox              
               checked={checked}
               icon={<HowToRegOutlinedIcon />} 
               checkedIcon={<HowToRegIcon sx={{color:"blue"}}/>}
               id={props._id}
               onChange={handleSignUp}
-              />
+            />
+          }
+          />
           </Tooltip>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
+        </IconButton>
+        <IconButton aria-label="comment" onClick={() => handleExpandCard(props._id)}>
+            <InsertCommentTwoToneIcon /> <Typography p={1}> {props.comments.length}</Typography>
         </IconButton>
         <ExpandMore
           expand={expanded}
@@ -123,10 +143,18 @@ const Post2 = (props) => {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
+      {open && expandedPostId === props._id && (
+        <ExpandedCard eventId= {expandedPostId} comments={props.comments} />
+      )}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph><b>Location: </b> {props.location}</Typography>
-          <Typography paragraph><b>Category: </b> {props.category}</Typography>
+          {/* <Typography paragraph><b>Location: </b> {props.location}</Typography>
+          <Typography paragraph><b>Category: </b> {props.category}</Typography> */}
+          {props.signups.map((signup) => (
+            <Typography paragraph key={signup._id}>
+              {signup.username}
+            </Typography> 
+          ))}
         </CardContent>
       </Collapse>
     </Card>
