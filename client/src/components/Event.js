@@ -27,6 +27,7 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import Edit from './Edit';
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { Button } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 import ArtsAndCraftsImg from '../images/cards/ArtsandCrafts.png';
@@ -162,27 +163,34 @@ const Event = (props) => {
        alt="event image"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" marginBottom={2}>
           {props.description}
         </Typography>
+        <Typography paragraph><b>Location: </b> {props.location}</Typography>
+        <Typography paragraph><b>Category: </b> {props.category}</Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton>
           <Tooltip title="Sign Up">
-              <Checkbox 
+          <FormControlLabel 
+          label={props.signups.length} 
+          control={
+            <Checkbox              
               checked={checked}
               icon={<HowToRegOutlinedIcon />} 
               checkedIcon={<HowToRegIcon sx={{color:"blue"}}/>}
               id={props._id}
               onChange={handleSignUp}
-              />
+            />
+          }
+          />  
           </Tooltip>
         </IconButton>
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
         <IconButton aria-label="comment" onClick={() => handleExpandCard(props._id)}>
-            <InsertCommentTwoToneIcon />
+            <InsertCommentTwoToneIcon /> <Typography p={1}> {props.comments.length}</Typography>
         </IconButton>
         <IconButton aria-label="edit" onClick={handleEdit}>
             <EditTwoToneIcon />
@@ -225,8 +233,13 @@ const Event = (props) => {
       )}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph><b>Location: </b> {props.location}</Typography>
-          <Typography paragraph><b>Category: </b> {props.category}</Typography>
+          {/* <Typography paragraph><b>Location: </b> {props.location}</Typography>
+          <Typography paragraph><b>Category: </b> {props.category}</Typography> */}
+          {props.signups.map((signup) => (
+            <Typography paragraph key={signup._id}>
+              {signup.username}
+            </Typography> 
+          ))}
         </CardContent>
       </Collapse>
     </Card>

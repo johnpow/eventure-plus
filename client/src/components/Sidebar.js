@@ -70,7 +70,7 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                </ListItemButton>
             </ListItem>
             <ListItem >
-                <ListItemButton component='a' href="me" >
+                <ListItemButton component={Link} to="/me" >
                 <ListItemIcon>
                     <AccountCircleRoundedIcon />    
                 </ListItemIcon>

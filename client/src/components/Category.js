@@ -37,6 +37,7 @@ const Category = () => {
             location={event.eventLocation}
             createdAt={event.createdAt}
             category={event.eventCategory}
+            comments={event.comments}
             checked={event.signups.some((signup) => signup.username === Auth.getUsername())}
             />
         </Grid>
