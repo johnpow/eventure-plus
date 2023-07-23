@@ -146,6 +146,7 @@ query GetUserSignups {
     eventDate
     eventLocation
     signups {
+      _id
       username
     }
   }

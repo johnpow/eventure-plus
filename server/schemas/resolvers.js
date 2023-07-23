@@ -186,6 +186,7 @@ const resolvers = {
           eventDate,
           eventLocation,
           eventCategory,
+          signups: [{_id: context.user._id, username: context.user.username}],
         });
 
         await User.findOneAndUpdate(

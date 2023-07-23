@@ -79,23 +79,23 @@ const Event = (props) => {
     setExpanded(!expanded);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     try {
-        removeEvent({
+        await removeEvent({
             variables: { eventId: props._id },
         });
-        window.location.reload();
     }
     catch (error) {
         console.error(error);
     }
+    window.location.reload();
   };
 
 
-  const handleSignUp = (event) => {
+  const handleSignUp = async (event) => {
     if(event.target.checked){
         try {
-            const {data} = addSignup({
+            const {data} = await addSignup({
                 variables: { eventId: event.target.id },
             });
         }
@@ -104,7 +104,7 @@ const Event = (props) => {
         }
     } else {
         try {
-            removeSignup({
+            await removeSignup({
                 variables: { eventId: event.target.id },
             });
         }
@@ -118,14 +118,6 @@ const Event = (props) => {
   const handleExpandCard = (postId) => {
     setExpandedPostId(postId);
     setOpen(!open);
-  };
-
-  const handleSaveComment = (postId, comment) => {
-    setComments((prevComments) => ({
-      ...prevComments,
-      [postId]: comment,
-    }));
-    setExpandedPostId(null);
   };
 
   return (
