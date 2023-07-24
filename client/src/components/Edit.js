@@ -24,7 +24,8 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ListItem } from "@mui/material";
-import statesAndCities from './statesAndCities'; 
+import statesAndCities from './statesAndCities';
+import { QUERY_EVENTS, MY_EVENTS, QUERY_USER_SIGNUPS } from '../utils/queries'; 
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -76,7 +77,41 @@ const Edit = (props) => {
         eventCategory: props.category,
       });
       
-    const [updateEvent, { error }] = useMutation(UPDATE_EVENT);
+    const [updateEvent, { error }] = useMutation(UPDATE_EVENT, {
+        update(cache, { data: { updateEvent } }) {
+          try {
+            const { events } = cache.readQuery({ query: QUERY_EVENTS });
+            cache.writeQuery({
+              query: QUERY_EVENTS,
+              data: { events: events.map((event) => event._id === updateEvent._id ? updateEvent : event) },
+            });
+          } catch (e) {
+            console.error(e);
+          }
+
+          try {
+            const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+            cache.writeQuery({
+              query: MY_EVENTS,
+              data: { myEvents: myEvents.map((event) => event._id === updateEvent._id ? updateEvent : event) },
+            });
+          } catch (e) {
+            console.error(e);
+          }
+
+          try {
+            const { getUserSignups } = cache.readQuery({ query: QUERY_USER_SIGNUPS });
+            cache.writeQuery({
+              query: QUERY_USER_SIGNUPS,
+              data: { getUserSignups: getUserSignups.map((event) => event._id === updateEvent._id ? updateEvent : event) },
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        },
+      });
+
+
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
@@ -85,7 +120,7 @@ const Edit = (props) => {
             const { data } = await updateEvent({
                 variables: { ...formState },
             });
-            window.location.reload();
+            // window.location.reload();
         } catch (err) {
             console.error(err);
         }

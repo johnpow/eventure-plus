@@ -15,7 +15,7 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Checkbox, Tooltip } from '@mui/material';
+import { Checkbox, List, ListItem, ListItemText, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_SIGNUP, REMOVE_SIGNUP } from '../utils/mutations';
@@ -35,6 +35,7 @@ import SocialImg from '../images/cards/Social.png';
 import SportsImg from '../images/cards/Sports.png';
 import TechImg from '../images/cards/Tech.png';
 import defaultImg from '../images/cards/defaultImg.png';
+import { QUERY_EVENTS, QUERY_USER_SIGNUPS, MY_EVENTS } from '../utils/queries';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -53,9 +54,77 @@ const formatDate = (dateValue) => {
   };
 
 const Post2 = (props) => {
+  console.log(props.signups)
   const [expanded, setExpanded] = useState(false);
-  const [addSignup, { error }] = useMutation(ADD_SIGNUP);
-  const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP);
+  const [addSignup, { error }] = useMutation(ADD_SIGNUP, {
+    update(cache, { data: { addSignup } }) {
+      try {
+        const { events } = cache.readQuery({ query: QUERY_EVENTS });
+        cache.writeQuery({
+          query: QUERY_EVENTS,
+          data: { events: events.map((event) => event._id === addSignup._id ? { ...event, signups: [...event.signups, addSignup] } : event) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { getUserSignups} = cache.readQuery({ query: QUERY_USER_SIGNUPS }); 
+        cache.writeQuery({
+          query: QUERY_USER_SIGNUPS,
+          data: { getUserSignups: [...getUserSignups, addSignup] },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+        cache.writeQuery({
+          query: MY_EVENTS,
+          data: { myEvents: [...myEvents, addSignup] },
+        });               
+      } catch (e) {
+        console.error(e);
+      }
+      
+    },
+  });
+
+  const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP, {
+    update(cache, { data: { removeSignup } }) {
+      try {
+        const { events } = cache.readQuery({ query: QUERY_EVENTS });
+        cache.writeQuery({
+          query: QUERY_EVENTS,
+          data: { events: events.map((event) => event._id === props._id ? { ...event, signups: [...event.signups.filter((signup) => signup._id !== removeSignup.signups._id)] } : event) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { getUserSignups} = cache.readQuery({ query: QUERY_USER_SIGNUPS });
+        cache.writeQuery({
+          query: QUERY_USER_SIGNUPS,
+          data: { getUserSignups: getUserSignups.filter((event) => event._id !== props._id) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+        cache.writeQuery({
+          query: MY_EVENTS,
+          data: { myEvents: myEvents.map((event) => event._id === props._id ? { ...event, signups: [...event.signups.filter((signup) => signup._id !== removeSignup.signups._id)] } : event) },
+        });               
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
+
   const [checked, setChecked] = useState(props.checked);
   const [expandedPostId, setExpandedPostId] = useState(null);
   const [open, setOpen] = useState(false);
@@ -170,13 +239,25 @@ const Post2 = (props) => {
       )}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {/* <Typography paragraph><b>Location: </b> {props.location}</Typography>
-          <Typography paragraph><b>Category: </b> {props.category}</Typography> */}
-          {props.signups.map((signup) => (
-            <Typography paragraph key={signup._id}>
-              {signup.username}
-            </Typography> 
-          ))}
+          <Card>
+            <CardContent sx={{ marginBottom: '0', padding: '0px'}}>
+            <Typography gutterBottom variant="h5" component="div" margin={2}>
+                Signups
+            </Typography>
+              <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                {props.signups.map((signup) => (
+                  <ListItem key={signup._id}>
+                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user profile image">
+                      {/* {signup.username[0]} */}
+                    </Avatar>
+                    <Typography variant="body2" color="text.secondary" marginLeft={2}>
+                      {signup.username}
+                    </Typography>
+                  </ListItem>
+                ))}    
+              </List>
+            </CardContent>
+          </Card>
         </CardContent>
       </Collapse>
     </Card>
