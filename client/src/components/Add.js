@@ -14,7 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { ADD_EVENT } from '../utils/mutations';
-import { QUERY_EVENTS, QUERY_ME } from '../utils/queries';
+import { QUERY_EVENTS, QUERY_USER_SIGNUPS, MY_EVENTS } from '../utils/queries';
 import Auth from '../utils/auth';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -75,10 +75,21 @@ const Add = () => {
         update(cache, { data: { addEvent } }) {
             try {
                 const { events } = cache.readQuery({ query: QUERY_EVENTS });
+                const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+                const { getUserSignups } = cache.readQuery({ query: QUERY_USER_SIGNUPS });
+
                 const updatedAddEvent = { ...addEvent, signups: [{_id: Auth.getUserId(), username: Auth.getUsername()}], comments: [], };
                 cache.writeQuery({
                   query: QUERY_EVENTS,
                   data: { events: [updatedAddEvent, ...events] },
+                });
+                cache.writeQuery({
+                    query: MY_EVENTS,
+                    data: { myEvents: [updatedAddEvent, ...myEvents] },
+                });
+                cache.writeQuery({
+                    query: QUERY_USER_SIGNUPS,
+                    data: { getUserSignups: [updatedAddEvent, ...getUserSignups] },
                 });
             } catch (e) {
                 console.error(e);
