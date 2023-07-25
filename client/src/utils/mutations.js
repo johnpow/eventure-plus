@@ -59,14 +59,23 @@ export const ADD_EVENT = gql`
 mutation AddEvent($eventText: String!, $eventTitle: String!, $eventDate: String!, $eventState: String!, $eventCity: String!, $eventCategory: String!) {
   addEvent(eventText: $eventText, eventTitle: $eventTitle, eventDate: $eventDate, eventState: $eventState, eventCity: $eventCity, eventCategory: $eventCategory) {
     _id
-    createdAt
     eventAuthor
+    eventText
     eventCategory
     eventDate
     eventState
     eventCity
-    eventText
     eventTitle
+    signups {
+      _id
+      username
+    }
+    comments {
+      _id
+      commentText
+      commentAuthor
+      createdAt
+    }
   }
 }`;
 
@@ -106,6 +115,23 @@ export const ADD_SIGNUP = gql`
 mutation AddSignup($eventId: ID!) {
   addSignup(eventId: $eventId) {
     _id
+    eventAuthor
+    eventText
+    eventCategory
+    eventDate
+    eventState
+    eventCity
+    eventTitle
+    signups {
+      _id
+      username
+    }
+    comments {
+      _id
+      commentText
+      commentAuthor
+      createdAt
+    }
   }
   }`;
 

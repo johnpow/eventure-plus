@@ -35,6 +35,7 @@ import SocialImg from '../images/cards/Social.png';
 import SportsImg from '../images/cards/Sports.png';
 import TechImg from '../images/cards/Tech.png';
 import defaultImg from '../images/cards/defaultImg.png';
+import { QUERY_EVENTS, QUERY_USER_SIGNUPS, MY_EVENTS } from '../utils/queries';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -53,9 +54,77 @@ const formatDate = (dateValue) => {
   };
 
 const Post2 = (props) => {
+  console.log(props.signups)
   const [expanded, setExpanded] = useState(false);
-  const [addSignup, { error }] = useMutation(ADD_SIGNUP);
-  const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP);
+  const [addSignup, { error }] = useMutation(ADD_SIGNUP, {
+    update(cache, { data: { addSignup } }) {
+      try {
+        const { events } = cache.readQuery({ query: QUERY_EVENTS });
+        cache.writeQuery({
+          query: QUERY_EVENTS,
+          data: { events: events.map((event) => event._id === addSignup._id ? { ...event, signups: [...event.signups, addSignup] } : event) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { getUserSignups} = cache.readQuery({ query: QUERY_USER_SIGNUPS }); 
+        cache.writeQuery({
+          query: QUERY_USER_SIGNUPS,
+          data: { getUserSignups: [...getUserSignups, addSignup] },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+        cache.writeQuery({
+          query: MY_EVENTS,
+          data: { myEvents: [...myEvents, addSignup] },
+        });               
+      } catch (e) {
+        console.error(e);
+      }
+      
+    },
+  });
+
+  const [removeSignup, { error2 }] = useMutation(REMOVE_SIGNUP, {
+    update(cache, { data: { removeSignup } }) {
+      try {
+        const { events } = cache.readQuery({ query: QUERY_EVENTS });
+        cache.writeQuery({
+          query: QUERY_EVENTS,
+          data: { events: events.map((event) => event._id === props._id ? { ...event, signups: [...event.signups.filter((signup) => signup._id !== removeSignup.signups._id)] } : event) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { getUserSignups} = cache.readQuery({ query: QUERY_USER_SIGNUPS });
+        cache.writeQuery({
+          query: QUERY_USER_SIGNUPS,
+          data: { getUserSignups: getUserSignups.filter((event) => event._id !== props._id) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
+        const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+        cache.writeQuery({
+          query: MY_EVENTS,
+          data: { myEvents: myEvents.map((event) => event._id === props._id ? { ...event, signups: [...event.signups.filter((signup) => signup._id !== removeSignup.signups._id)] } : event) },
+        });               
+      } catch (e) {
+        console.error(e);
+      }
+    },
+  });
+
   const [checked, setChecked] = useState(props.checked);
   const [expandedPostId, setExpandedPostId] = useState(null);
   const [open, setOpen] = useState(false);
