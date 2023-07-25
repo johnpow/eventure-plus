@@ -16,7 +16,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@apollo/client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { UPDATE_EVENT } from '../utils/mutations';
 import dayjs from 'dayjs';
 import Auth from '../utils/auth';
@@ -52,17 +52,30 @@ const UserBox = styled(Box)(({ theme }) => ({
 }))
 
 const Edit = (props) => {
+  console.log(props);
+  const [selectedState, setSelectedState] = useState(props.state || '');
+  const [selectedCity, setSelectedCity] = useState(props.city || '');
 
-    const [selectedState, setSelectedState] = useState('');
-    const [selectedCity, setSelectedCity] = useState('');
-
-    const handleStateChange = (event) => {
-      setSelectedState(event.target.value);
-      setSelectedCity(''); // Reset the selected city when the state changes
-    };
-    const handleCityChange = (event) => {
-      setSelectedCity(event.target.value);
-    };
+  const handleStateChange = (event) => {
+    const selectedStateValue = event.target.value;
+    setSelectedState(selectedStateValue);
+    setSelectedCity(''); // Reset the selected city when the state changes
+    setFormState((prevFormState) => ({
+      ...prevFormState,
+      eventState: selectedStateValue,
+      eventCity: '', // Reset the city value when the state changes
+    }));
+  };
+  
+  const handleCityChange = (event) => {
+    const selectedCityValue = event.target.value;
+    setSelectedCity(selectedCityValue);
+    setFormState((prevFormState) => ({
+      ...prevFormState,
+      eventCity: selectedCityValue,
+    }));
+  };
+  
 
     const [open, setOpen] = useState(props.open);
     const [value, setValue] = useState(dayjs.unix(props.date/1000));
@@ -76,7 +89,8 @@ const Edit = (props) => {
         eventDate: props.date,
         eventCategory: props.category,
       });
-      
+
+
     const [updateEvent, { error }] = useMutation(UPDATE_EVENT, {
         update(cache, { data: { updateEvent } }) {
           try {
