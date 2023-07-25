@@ -148,7 +148,7 @@ const Profile = () => {
                 </Select>
             </FormControl>
 
-            {state && (
+            {state && (state !== "No preference") && (
               <FormControl sx={{ display: 'block', marginBottom: '10px'}}>
                 <Select
                   value={city}
