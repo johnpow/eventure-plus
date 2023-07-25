@@ -104,7 +104,7 @@ const Header = ({ colorMode, theme }) => {
                   <MenuItem value={"Sports"} component={Link} to="/category/Sports">Sports</MenuItem>
                   <MenuItem value={"Social"} component={Link} to="/category/Social">Social</MenuItem>
                   <MenuItem value={"Tech"} component={Link} to="/category/Tech">Tech</MenuItem>
-                  <MenuItem value={"Trivia"} component={Link} to="/category/Trivia">Trivia</MenuItem>
+                  <MenuItem value={"Trivia"} component={Link} to="/category/Boardgames">Boardgames</MenuItem>
                 </Select>
             </FormControl>
 
