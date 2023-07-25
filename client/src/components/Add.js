@@ -81,26 +81,37 @@ const Add = () => {
       const [addEvent, { error }] = useMutation(ADD_EVENT, {
         update(cache, { data: { addEvent } }) {
             try {
-                const { events } = cache.readQuery({ query: QUERY_EVENTS });
-                const { myEvents } = cache.readQuery({ query: MY_EVENTS });
-                const { getUserSignups } = cache.readQuery({ query: QUERY_USER_SIGNUPS });
-
+                const { events } = cache.readQuery({ query: QUERY_EVENTS });          
                 const updatedAddEvent = { ...addEvent, signups: [{_id: Auth.getUserId(), username: Auth.getUsername()}], comments: [], };
                 cache.writeQuery({
                   query: QUERY_EVENTS,
                   data: { events: [updatedAddEvent, ...events] },
                 });
-                cache.writeQuery({
+            } catch (e) {
+                console.error(e);
+            }
+            try {
+              const updatedAddEvent = { ...addEvent, signups: [{_id: Auth.getUserId(), username: Auth.getUsername()}], comments: [], };
+              const { myEvents } = cache.readQuery({ query: MY_EVENTS });
+              cache.writeQuery({
                     query: MY_EVENTS,
                     data: { myEvents: [updatedAddEvent, ...myEvents] },
                 });
-                cache.writeQuery({
+            } catch (e) {
+                console.error(e);
+            }
+
+            try {
+              const updatedAddEvent = { ...addEvent, signups: [{_id: Auth.getUserId(), username: Auth.getUsername()}], comments: [], };
+              const { getUserSignups } = cache.readQuery({ query: QUERY_USER_SIGNUPS });
+              cache.writeQuery({
                     query: QUERY_USER_SIGNUPS,
                     data: { getUserSignups: [updatedAddEvent, ...getUserSignups] },
                 });
             } catch (e) {
                 console.error(e);
-      }}});
+            }
+    }});
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
