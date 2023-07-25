@@ -200,12 +200,12 @@ const resolvers = {
           eventState,
           eventCity,
           eventCategory,
-          signups: [{_id: context.user._id, username: context.user.username}],
+          signups: [{_id: context.user._id}],
         });
 
         await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { events: event._id } }
+          { $addToSet: { events: event._id, signups: event._id  } }
         );
 
         return event;
