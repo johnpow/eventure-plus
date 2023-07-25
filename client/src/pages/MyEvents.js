@@ -23,9 +23,9 @@ const MyEvents = () => {
       });
   
       return (
-              <Grid container spacing={3} className={classes.cardContainer}>
+              <Grid className={classes.cardContainer} sx={{ marginTop: '30px', marginRight: 'auto', marginLeft: 'auto'}}>
                 {sortedEvents.map((event) => (
-                  <Grid item xs={12} sm={12} md={12} className={classes.cardItem} key={event._id}>
+                  <Grid className={classes.cardItem} key={event._id}>
                     <Event
                       key={event._id}
                       _id={event._id}

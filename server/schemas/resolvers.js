@@ -103,7 +103,7 @@ const resolvers = {
 
       return { token, user };
     },
-    updateUser: async (parent, { username, email, bio, city }, context) => {
+    updateUser: async (parent, { username, email, bio, city, state }, context) => {
       if (context.user) {
         return User.findOneAndUpdate(
           { _id: context.user._id },
@@ -113,6 +113,7 @@ const resolvers = {
               email,
               bio,
               city,
+              state,
             },
           },
           {

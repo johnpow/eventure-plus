@@ -30,6 +30,12 @@ import UserSignup from './components/UserSignup';
 import Category from './components/Category';
 import Location from './components/Location';
 
+import amber from '@mui/material/colors/amber';
+import deepOrange from '@mui/material/colors/deepOrange';
+import grey from '@mui/material/colors/grey';
+
+
+
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -54,32 +60,87 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-function App() {
-    const [mode, setMode] = React.useState('light');
-    const toggleColorMode = () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-    };
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
-    const theme = React.useMemo(
-        () =>
-        createTheme({
-            palette: {
-            mode,
-            },
-        }),
-        [mode],
-    );  
+function App() {
+  const [mode, setMode] = React.useState('light');
+  const colorMode = React.useMemo(
+    () => ({
+      // The dark mode switch would invoke this method
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
+
+
+
+  const getDesignTokens = (mode) => ({
+      palette: {
+        mode,
+        ...(mode === 'light'
+          ? {
+              // palette values for light mode
+              primary:{
+                light: '#009688',
+                main: '#33ab9f',
+                dark: '#00695f',
+                contrastText: '#fff',
+              },
+              secondary:{
+                light: '#ef6694',
+                main: '#ec407a',
+                dark: '#a52c55',
+                contrastText: '#fff',
+              },
+              divider: amber[200],
+              background: {
+                default: '#fffde7', 
+                paper: '#fafafa',
+              },
+              text: {
+                primary: grey[900],
+                secondary: grey[800],
+              },
+            }
+          : {
+              // palette values for dark mode
+              primary:{
+                light: '#009688',
+                main: '#33ab9f',
+                dark: '#00695f',
+                contrastText: '#fff',
+              },
+              divider: amber[200],
+              background: {
+                default: '#263238',
+                paper: '#385a73',
+              },
+              text: {
+                primary: '#fff',
+                secondary: 'grey[500]',
+              },
+            }),
+      },
+    });
+
+
+
+
+    const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+
   return (
     <ApolloProvider client={client}>
-    <ThemeProvider  theme={theme}>
+    <ThemeProvider  theme={theme} >
       <Router>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Header />
-          <div>
+        <div className="flex-column justify-flex-start min-100-vh" >
+          <Header position="fixed" colorMode={colorMode.toggleColorMode} theme={theme} />
+          <div sx={{marginRight: 'auto', marginLeft: 'auto'}}>
           <CssBaseline />
           <Box bgcolor={"background.default"} color={"text.primary"}>
-            <Stack direction="row" spacing={2} justifyContent={"space-between"}>
-                {Auth.loggedIn() && <Sidebar toggleColorMode={toggleColorMode} theme={theme}/>}
+            <Stack direction="row"  justifyContent={"space-between"} >
+                {Auth.loggedIn() && <Sidebar colorMode={colorMode.toggleColorMode} theme={theme}/>}
                 
                 <Routes>
                     {Auth.loggedIn() && (
@@ -101,7 +162,7 @@ function App() {
                     )}
                 </Routes>    
             </Stack>
-          {Auth.loggedIn() && <Add />}
+          {Auth.loggedIn() && <Add colorMode={colorMode.toggleColorMode} theme={theme}/>}
           </Box>  
           </div>
         </div>

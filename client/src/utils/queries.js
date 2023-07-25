@@ -22,6 +22,7 @@ export const QUERY_USER = gql`
         }
       bio
       city
+      state
     }
   }
 `;
@@ -77,6 +78,7 @@ export const QUERY_ME = gql`
       }
       bio
       city
+      state
     }
   }
 `;

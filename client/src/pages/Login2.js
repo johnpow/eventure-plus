@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { useState } from 'react';
+import EventureBG from '../images/cards/eventureBG.png';
 
 
 const Login = () => {
@@ -45,8 +46,13 @@ const Login = () => {
       <Grid
       container
       justifyContent="center"  
-      style={{ minHeight: '100vh' }} 
-      >
+      style={{
+        minHeight: 'calc(100vh - 64px)',
+        backgroundImage: `url(${EventureBG})`, // Set the background image here
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'fixed',
+      }}>
         <Paper elevation={10} sx={{height: '70vh', width: 300, margin: "20px auto", padding:"20px"}}>
           <Grid align="center" sx={{margin: "10px auto 40px"}}>
             {/* <Avatar sx={{bgcolor: "primary.main"}}>

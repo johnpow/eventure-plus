@@ -15,7 +15,7 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Checkbox, List, ListItem, ListItemText, Tooltip } from '@mui/material';
+import { Checkbox, Tooltip, Divider } from '@mui/material';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_SIGNUP, REMOVE_SIGNUP } from '../utils/mutations';
@@ -162,18 +162,18 @@ const Post2 = (props) => {
 };
 
   return (
-    <Card elevation={3} sx={{ maxWidth: 345 }}>
+    <Card elevation={5} sx={{ maxWidth: 320, marginBottom: "20px", marginRIght: 'auto', marginLeft: 'auto', borderRadius: '0.5rem' }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="user profile image">
+          <Avatar sx={{ bgcolor: red[700], color: 'white' }} aria-label="user profile image">
             {props.author[0]}
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
+        // action={
+        //   <IconButton aria-label="settings">
+        //     <MoreVertIcon />
+        //   </IconButton>
+        // }
         title= {props.title}
         subheader={formatDate(props.date)}
       />
@@ -195,33 +195,33 @@ const Post2 = (props) => {
           } 
         alt="event image"
         />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary"  marginBottom={2}>
+      <CardContent >
+        <Typography variant="body2" color="text.primary"  marginBottom={2}>
           {props.description}
         </Typography>
         <Typography paragraph><b>Location: </b> {props.city}, {props.state}</Typography>
         <Typography paragraph><b>Category: </b> {props.category}</Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="share">
-          <Tooltip title="Sign Up">
+      <Tooltip title="Sign Up">
+          <IconButton >
           <FormControlLabel 
           label={props.signups.length} 
           control={
             <Checkbox              
               checked={checked}
               icon={<HowToRegOutlinedIcon />} 
-              checkedIcon={<HowToRegIcon sx={{color:"blue"}}/>}
+              checkedIcon={<HowToRegIcon sx={{color:'#009688'}}/>}
               id={props._id}
               onChange={handleSignUp}
             />
           }
           />
-          </Tooltip>
         </IconButton>
-        <IconButton aria-label="share">
+        </Tooltip>
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
         <IconButton aria-label="comment" onClick={() => handleExpandCard(props._id)}>
             <InsertCommentTwoToneIcon /> <Typography p={1}> {props.comments.length}</Typography>
         </IconButton>
@@ -230,33 +230,28 @@ const Post2 = (props) => {
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"
+          title="See signed up accounts"
         >
-          <ExpandMoreIcon />
+        <ExpandMoreIcon />
         </ExpandMore>
+       
       </CardActions>
       {open && expandedPostId === props._id && (
         <ExpandedCard eventId= {expandedPostId} comments={props.comments} />
       )}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Card>
-            <CardContent sx={{ marginBottom: '0', padding: '0px'}}>
-            <Typography gutterBottom variant="h5" component="div" margin={2}>
-                Signups
-            </Typography>
-              <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                {props.signups.map((signup) => (
-                  <ListItem key={signup._id}>
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="user profile image">
-                      {/* {signup.username[0]} */}
-                    </Avatar>
-                    <Typography variant="body2" color="text.secondary" marginLeft={2}>
-                      {signup.username}
-                    </Typography>
-                  </ListItem>
-                ))}    
-              </List>
-            </CardContent>
+        <CardContent >
+          <Card elevation={5} sx={{ maxWidth: 300, marginBottom: '15px', borderRadius: '1rem' }}>
+          <CardContent sx={{ padding: '20px 20px 0' }}>
+            <Typography paragraph ><b>Created by:</b> {props.author}</Typography>
+            <Typography sx={{ fontStyle: 'italic' }} >Users attending:</Typography>
+            <Divider sx={{marginBottom: "16px" }} />
+              {props.signups.map((signup) => (
+                <Typography paragraph key={signup._id}>
+              {signup.username}
+            </Typography> 
+          ))}
+          </CardContent>
           </Card>
         </CardContent>
       </Collapse>

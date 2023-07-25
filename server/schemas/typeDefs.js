@@ -11,6 +11,7 @@ const typeDefs = gql`
     signups: [Event]!
     bio: String
     city: String
+    state: String
   }
 
   type Thought {
@@ -66,7 +67,7 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
-    updateUser(username: String!, email: String!, bio: String!, city: String!): User
+    updateUser(username: String!, email: String!, bio: String!, city: String!, state: String!): User
     login(email: String!, password: String!): Auth
     addThought(thoughtText: String!): Thought
     addComment(thoughtId: ID!, commentText: String!): Thought
