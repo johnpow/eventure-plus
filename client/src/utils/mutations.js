@@ -97,6 +97,7 @@ mutation UpdateEvent($eventId: ID!, $eventText: String!, $eventTitle: String!, $
 export const REMOVE_EVENT = gql`
 mutation RemoveEvent($eventId: ID!) {
   removeEvent(eventId: $eventId) {
+    _id
     eventTitle
     eventText
   }

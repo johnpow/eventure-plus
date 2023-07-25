@@ -134,6 +134,16 @@ const Event = (props) => {
   const [removeEvent, { error3 }] = useMutation(REMOVE_EVENT, {
     update(cache, { data: { removeEvent } }) {
       try {
+        const { getUserEvents } = cache.readQuery({ query: MY_EVENTS });
+        cache.writeQuery({
+          query: MY_EVENTS,
+          data: { getUserEvents: getUserEvents.filter((event) => event._id !== removeEvent._id) },
+        });
+      } catch (e) {
+        console.error(e);
+      }
+
+      try {
         const { events } = cache.readQuery({ query: QUERY_EVENTS });
         cache.writeQuery({
           query: QUERY_EVENTS,
@@ -148,16 +158,6 @@ const Event = (props) => {
         cache.writeQuery({
           query: QUERY_USER_SIGNUPS,
           data: { userSignups: userSignups.filter((event) => event._id !== removeEvent._id) },
-        });
-      } catch (e) {
-        console.error(e);
-      }
-
-      try {
-        const { getUserEvents } = cache.readQuery({ query: MY_EVENTS });
-        cache.writeQuery({
-          query: MY_EVENTS,
-          data: { getUserEvents: getUserEvents.filter((event) => event._id !== removeEvent._id) },
         });
       } catch (e) {
         console.error(e);
