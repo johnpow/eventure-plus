@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
@@ -10,6 +10,11 @@ import { Box, CssBaseline, Typography, TextField, MenuItem, Button } from '@mui/
 import Add from '../components/Add';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import useStyles from '../components/styles';
+import statesAndCities from '../components/statesAndCities'; 
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import { ListItem } from "@mui/material";
+
 
 const Profile = () => {
   const [mode, setMode] = React.useState('light');
@@ -36,7 +41,6 @@ const Profile = () => {
 
   // State variables for bio, city, and edit mode
   const [bio, setBio] = React.useState('');
-  const [selectedCity, setSelectedCity] = React.useState('');
   const [editMode, setEditMode] = React.useState(false);
 
   // GraphQL mutation for updating user's bio and city
@@ -48,12 +52,20 @@ const Profile = () => {
     // Set the local state with the latest data from the server after the data is fetched
     setBio(user.bio || '');
     setSelectedCity(user.city || '');
-  }, [user.bio, user.city]);
+    setSelectedState(user.state || '');
+  }, [user.bio, user.state, user.city]);
 
   const handleBioChange = (event) => {
     setBio(event.target.value);
   };
 
+  const [state, setSelectedState] = useState('');
+  const [city, setSelectedCity] = useState('');
+
+  const handleStateChange = (event) => {
+    setSelectedState(event.target.value);
+    setSelectedCity(''); // Reset the selected city when the state changes
+  };
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
   };
@@ -68,12 +80,14 @@ const Profile = () => {
         username: user.username,
         email: user.email,
         bio: bio,
-        city: selectedCity,
+        city: city,
+        state: state
       },
       onCompleted: (data) => {
         // Update the local state with the latest data from the server
         setBio(data.updateUser.bio);
         setSelectedCity(data.updateUser.city);
+        setSelectedState(data.updateUser.state);
       },
     });
     setEditMode(false);
@@ -97,18 +111,17 @@ const Profile = () => {
 
   return (
     <Grid
-    container
-    spacing={1} 
+    
     className={classes.cardContainer2} 
     >
-            <Box p={2}>
+            <Box p={2} >
               <Typography variant="h5">Viewing {user.username}'s profile.</Typography>
 
               {/* Bio */}
               <Typography variant="h6">Bio:</Typography>
               <TextField
+                sx={{ width: {lg: '500px', md: '500px', sm: '500px', xs:'320px'}, marginBottom: '25px'}}
                 multiline
-                fullWidth
                 rows={4}
                 value={bio}
                 onChange={handleBioChange}
@@ -117,29 +130,50 @@ const Profile = () => {
               />
 
               {/* Select City */}
-              <Typography variant="h6">Select City:</Typography>
-              <TextField
-                select
-                fullWidth
-                value={selectedCity}
-                onChange={handleCityChange}
-                variant="outlined"
-                disabled={!editMode} // Disable the input when not in edit mode
-              >
-                <MenuItem value="Seattle, WA">Seattle, WA</MenuItem>
-                <MenuItem value="New York, NY">New York, NY</MenuItem>
-                <MenuItem value="Los Angeles, CA">Los Angeles, CA</MenuItem>
-                <MenuItem value="Miami, FL">Miami, FL</MenuItem>
-                <MenuItem value="No preference">No preference</MenuItem>
-              </TextField>
+              <FormControl  sx={{ display: 'block', marginBottom: '10px' }}>
+                <ListItem sx={{ paddingLeft: '0' }}>Set your State and City</ListItem>
+                <Select
+                  value={state}
+                  onChange={handleStateChange}
+                  disabled={!editMode}
+                >
+                  <MenuItem value=''>
+                    Select State
+                  </MenuItem>
+                  {Object.keys(statesAndCities).map((state) => (
+                    <MenuItem key={state} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
+                </Select>
+            </FormControl>
+
+            {state && (
+              <FormControl sx={{ display: 'block', marginBottom: '10px'}}>
+                <Select
+                  value={city}
+                  onChange={handleCityChange}
+                  disabled={!editMode}
+                >
+                  <MenuItem value="">
+                    Select City
+                  </MenuItem>
+                  {statesAndCities[state].map((city) => (
+                    <MenuItem key={city} value={city}>
+                      {city}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
 
               {/* Edit and Save Buttons */}
               {editMode ? (
-                <Button variant="contained" color="primary" onClick={handleSave}>
+                <Button sx={{display: "block", marginTop: '20px'}} variant="contained" color="primary" onClick={handleSave}>
                   Save
                 </Button>
               ) : (
-                <Button variant="contained" color="primary" onClick={handleEdit}>
+                <Button sx={{display: "block", marginTop: '20px'}} variant="contained" color="primary" onClick={handleEdit}>
                   Edit
                 </Button>
               )}

@@ -21,6 +21,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ListItem } from "@mui/material";
 import statesAndCities from './statesAndCities'; 
+import MenuIcon from '@mui/icons-material/Menu';
+import AppBar from '@mui/material/AppBar';
+import IconButton from '@mui/material/IconButton';
+import Toolbar from '@mui/material/Toolbar';
+import Sidebar from './Sidebar';
+import { useTheme, useMediaQuery } from '@mui/material';
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -148,12 +155,12 @@ const Add = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Tooltip 
             title="Create New Event" 
-            sx={{position:"fixed", bottom:20, right:{xs:"calc(50% - 25px)", md:30}}}
+            sx={{position:"fixed", bottom:20, right:{xs:"calc(50% - 25px)", sm:20, md:20}, }}
             onClick={() => setOpen(true)}
             >
-                <Fab color="primary" aria-label="add">
-                    <AddIcon />
-                </Fab>
+              <Fab color="primary" aria-label="add"  >
+                    <AddIcon  />
+              </Fab>
             </Tooltip>
             <StyledModal
             open={open}
@@ -163,23 +170,22 @@ const Add = () => {
             aria-describedby="modal-modal-description"
             >
             <Box width={400} 
-            bgcolor={"background.default"} 
+            bgcolor={"white"} 
             color={"text.primary"} p={3} 
             borderRadius={5}
             >
                 <Stack direction="row" justifyContent="end" color={"text.secondary"}>
-                    <CloseIcon onClick={() => {setOpen(false);
-                    resetFormState();}}/>
+                  <CloseIcon onClick={() => {setOpen(false);
+                  resetFormState();}}/>
                 </Stack>
                 <Typography variant="h6" color={"gray"} textAlign={"center"}>Create Event</Typography>
                 <UserBox>
-                    <Avatar 
-                    sx={{width: "30px", height:"30px"}} 
-                    alt={Auth.getUsername()} 
-                    // src="https:/mui.com/images/avatar/1.jpg" 
-                    onClick={() => setOpen(!open)}
-                    />
-                    <Typography fontWeight={500} variant="span">{Auth.getUsername()}</Typography>
+                  <Avatar 
+                  sx={{width: "30px", height:"30px"}} 
+                  alt={Auth.getUsername()} 
+                  onClick={() => setOpen(!open)}
+                  />
+                  <Typography fontWeight={500} variant="span">{Auth.getUsername()}</Typography>
                 </UserBox>
                 <form
                     onSubmit={handleFormSubmit}
@@ -199,7 +205,7 @@ const Add = () => {
                   <Select
                     name='eventCategory'
                     value={formState.eventCategory}
-                    sx={{ width: "100%", marginBottom: "10px", color: 'gray' }}
+                    sx={{ width: "100%", marginBottom: "10px", color: 'black' }}
                     variant= "outlined"
                     placeholder="Category"
                     required
@@ -213,7 +219,7 @@ const Add = () => {
                         return selected;
                     }}
                   >   
-                  <MenuItem disabled value=""><em>Category</em></MenuItem>          
+                    <MenuItem disabled value=""><em>Category</em></MenuItem>          
                     <MenuItem value={"Arts and Crafts"}>Arts and Crafts</MenuItem>
                     <MenuItem value={"Education"}>Education</MenuItem>
                     <MenuItem value={"Entertainment"}>Entertainment</MenuItem>
@@ -228,22 +234,22 @@ const Add = () => {
                 </FormControl>
 
                 <FormControl fullWidth sx={{ marginBottom: '10px' }}>
-                <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Location</ListItem>
-                <Select
-                  value={selectedState}
-                  onChange={handleStateChange}
-                  displayEmpty
-                >
-                  <MenuItem value="" disabled>
-                    Select State
-                  </MenuItem>
-                  {Object.keys(statesAndCities).map((state) => (
-                    <MenuItem key={state} value={state}>
-                      {state}
+                  <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Location</ListItem>
+                  <Select
+                    value={selectedState}
+                    onChange={handleStateChange}
+                    displayEmpty
+                  >
+                    <MenuItem value="" disabled>
+                      Select State
                     </MenuItem>
-                  ))}
-                </Select>
-            </FormControl>
+                    {Object.keys(statesAndCities).map((state) => (
+                      <MenuItem key={state} value={state}>
+                        {state}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
             {selectedState && (
               <FormControl fullWidth sx={{ marginBottom: '10px' }}>
@@ -263,23 +269,13 @@ const Add = () => {
                 </Select>
               </FormControl>
             )}
-
-                {/* <TextField
-                name='eventLocation'
-                value={formState.eventLocation}
-                sx={{width:"100%", marginBottom:"10px"}}
-                variant="outlined"
-                placeholder="Location"                
-                required 
-                onChange={handleChange}
-                /> */}
                 <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Date and Time</ListItem>
                 <DateTimePicker fullWidth 
-                    sx={{ marginBottom:"10px" }}
-                    // label="Date and Time"
-                    name='eventDate'
-                    value={value}
-                    onChange={handleDateChange}
+                  sx={{ marginBottom:"10px" }}
+                  // label="Date and Time"
+                  name='eventDate'
+                  value={value}
+                  onChange={handleDateChange}
                 />
                 <TextField
                 name='eventText'
@@ -300,7 +296,7 @@ const Add = () => {
                 </form>  
                 </Box>
             </StyledModal>
-            </LocalizationProvider>   
+            </LocalizationProvider> 
         </>
     );
 }

@@ -10,11 +10,11 @@ function Home() {
       justifyContent="center"
       alignItems="center"
       style={{
-        minHeight: '100vh',
+        minHeight: 'calc(100vh - 64px)',
         backgroundImage: `url(${EventureBG})`, // Set the background image here
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center',
+        backgroundPosition: 'fixed',
       }}
     >
       <Box
@@ -30,7 +30,7 @@ function Home() {
           Welcome to Eventure!
         </Typography>
         <Typography variant="body1" gutterBottom>
-          Your adventure starts here.
+          Your next adventure starts here.
         </Typography>
         <Button
           variant="contained"

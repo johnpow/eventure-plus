@@ -33,6 +33,13 @@ const userSchema = new Schema({
     maxlength: 1000,
     default: 'No preference',
   },
+  state: {
+    type: String,
+    required: false,
+    minlength: 1,
+    maxlength: 1000,
+    default: 'No preference',
+  },
   thoughts: [
     {
       type: Schema.Types.ObjectId,

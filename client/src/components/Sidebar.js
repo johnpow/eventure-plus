@@ -14,8 +14,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import statesAndCities from './statesAndCities'; 
+import { useTheme, useMediaQuery } from '@mui/material';
 
-const Sidebar = ({ toggleColorMode, theme }) => {
+
+const Sidebar = ({ colorMode, theme }) => {
 
 
     const navigate = useNavigate();
@@ -49,9 +51,9 @@ const Sidebar = ({ toggleColorMode, theme }) => {
 
     return (
         <Box  
-        flex={1} p={2} 
-        sx={{ display: { xs: "none", sm: "block"}}}>
-            <Box position={"fixed"}>
+        // flex={1} p={2} 
+        sx={{ display: {xs: "none", sm: "block"}, paddingRight: '45px' }}>
+            <Box position={"fixed"} sx={{ backgroundColor: "background.default", height: '100vh' }} >
             <List>
             <ListItem >
               <ListItemButton component={Link}  to="/">
@@ -119,7 +121,7 @@ const Sidebar = ({ toggleColorMode, theme }) => {
             </Button>
 
             <ListItem >
-                <ListItemButton component={Link} to="/myevents">
+                <ListItemButton  sx={{ textDecoration: 'none', color: 'inherit' }} component={Link}  to="/myevents">
                     <ListItemIcon>
                         <EventRoundedIcon />
                     </ListItemIcon>
@@ -127,11 +129,11 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                 </ListItemButton>
           </ListItem>
             <ListItem >
-                <ListItemButton component={Link} to="/signedup">
+                <ListItemButton component={Link} to="/signedup" >
                 <ListItemIcon>
                     <CheckBoxRoundedIcon />    
                 </ListItemIcon>
-                <ListItemText primary="Signed Up" />
+                <ListItemText primary="Signed Up"/>
                </ListItemButton>
             </ListItem>
             <ListItem >
@@ -143,7 +145,7 @@ const Sidebar = ({ toggleColorMode, theme }) => {
                 </ListItemButton>
             </ListItem>
             <ListItem >
-                <ListItemButton onClick={toggleColorMode}>
+                <ListItemButton onClick={colorMode}>
                     <ListItemIcon  color="inherit">
                         {theme.palette.mode === 'dark' ? <Brightness7Icon sx={{color: "#ffd54f"}}/> : <Brightness4Icon sx={{color:'#3f51b5'}}/>}
                     </ListItemIcon>
