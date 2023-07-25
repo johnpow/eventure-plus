@@ -162,7 +162,7 @@ const Edit = (props) => {
             aria-describedby="modal-modal-description"
             >
             <Box width={400} 
-            bgcolor={"background.default"} 
+            bgcolor={"white"} 
             color={"text.primary"} p={3} 
             borderRadius={5}
             >
