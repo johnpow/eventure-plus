@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from "@mui/material";
 import Event from "../components/Event";
 import { MY_EVENTS } from '../utils/queries';
@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import useStyles from '../components/styles';
 
 const MyEvents = () => {
-    const { loading, data } = useQuery(MY_EVENTS);
+    const { loading, data, refetch } = useQuery(MY_EVENTS);
     const events = data?.getUserEvents || [];
     const classes = useStyles();
 
@@ -21,7 +21,11 @@ const MyEvents = () => {
         const dateB = b.eventDate;
         return dateA - dateB; 
       });
-  
+
+      useEffect(() => {
+        refetch();
+      }, [refetch]);
+
       return (
               <Grid className={classes.cardContainer} sx={{ marginTop: '30px', marginRight: 'auto', marginLeft: 'auto'}}>
                 {sortedEvents.map((event) => (

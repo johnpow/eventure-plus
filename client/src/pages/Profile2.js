@@ -33,7 +33,7 @@ const Profile = () => {
   );
 
   const { username: userParam } = useParams();
-  const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
+  const { loading, data, refetch } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
   });
 
@@ -88,6 +88,7 @@ const Profile = () => {
         setBio(data.updateUser.bio);
         setSelectedCity(data.updateUser.city);
         setSelectedState(data.updateUser.state);
+        refetch();
       },
     });
     setEditMode(false);
