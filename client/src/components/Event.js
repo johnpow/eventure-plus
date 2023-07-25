@@ -187,7 +187,7 @@ const Event = (props) => {
     catch (error) {
         console.error(error);
     }
-    window.location.reload();
+    // window.location.reload();
   };
 
 
