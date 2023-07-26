@@ -1,37 +1,50 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
+import { Box, Button, Typography, Grid } from '@mui/material';
+import EventureBG from '../images/cards/eventureBG.png';
 
-import ThoughtList from '../components/ThoughtList';
-import ThoughtForm from '../components/ThoughtForm';
-
-import { QUERY_THOUGHTS } from '../utils/queries';
-
-const Home = () => {
-  const { loading, data } = useQuery(QUERY_THOUGHTS);
-  const thoughts = data?.thoughts || [];
-
+function Home() {
   return (
-    <main>
-      <div className="flex-row justify-center">
-        <div
-          className="col-12 col-md-10 mb-3 p-3"
-          style={{ border: '1px dotted #1a1a1a' }}
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      style={{
+        minHeight: 'calc(100vh - 64px)',
+        backgroundImage: `url(${EventureBG})`, // Set the background image here
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'fixed',
+      }}
+    >
+      <Box
+        textAlign="center"
+        p={4}
+        borderRadius={8}
+        boxShadow={4}
+        bgcolor="white"
+        maxWidth="400px"
+        width="90%"
+      >
+        <Typography variant="h4" gutterBottom>
+          Welcome to Eventure!
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Your next adventure starts here.
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/login"
+          style={{ marginTop: '20px' }}
+          fullWidth
         >
-          <ThoughtForm />
-        </div>
-        <div className="col-12 col-md-8 mb-3">
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <ThoughtList
-              thoughts={thoughts}
-              title="Some Feed for Thought(s)..."
-            />
-          )}
-        </div>
-      </div>
-    </main>
+          Get Started
+        </Button>
+      </Box>
+    </Grid>
   );
-};
+}
 
 export default Home;

@@ -1,10 +1,10 @@
 import { Grid } from "@mui/material";
-import Post2 from "./Post2";
+import Post from "./Post";
 import { QUERY_EVENTS } from '../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
 import useStyles from './styles';
-import React, { useState } from 'react';
+import React from 'react';
 
 
 const Feed = () => {
@@ -31,7 +31,7 @@ const Feed = () => {
         <Grid className={classes.cardContainer} sx={{ marginTop: '30px', marginRight: 'auto', marginLeft: 'auto', overflowx: 'hidden'}}>
            {sortedEvents.map((event) => (
             <Grid className={classes.cardItem} key={event._id} >
-              <Post2 
+              <Post 
                 key={event._id}
                 _id={event._id}
                 author={event.eventAuthor}

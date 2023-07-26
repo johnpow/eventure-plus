@@ -6,17 +6,13 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import styled from "@emotion/styled";
 import Avatar from '@mui/material/Avatar';
-import { DateRange, EmojiEmotions, Image, PersonAdd, VideoCameraBack } from "@mui/icons-material";
 import { Button, ButtonGroup, TextField } from "@mui/material";
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import CloseIcon from '@mui/icons-material/Close';
 import { useMutation } from '@apollo/client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { UPDATE_EVENT } from '../utils/mutations';
 import dayjs from 'dayjs';
 import Auth from '../utils/auth';
@@ -134,7 +130,6 @@ const Edit = (props) => {
             const { data } = await updateEvent({
                 variables: { ...formState },
             });
-            // window.location.reload();
         } catch (err) {
             console.error(err);
         }
@@ -188,7 +183,6 @@ const Edit = (props) => {
                     <Avatar 
                     sx={{width: "30px", height:"30px"}} 
                     alt={Auth.getUsername()} 
-                    // src="https:/mui.com/images/avatar/1.jpg" 
                     onClick={() => setOpen(!open)}
                     />
                     <Typography fontWeight={500} variant="span">{Auth.getUsername()}</Typography>
@@ -275,7 +269,6 @@ const Edit = (props) => {
                 )}
                 <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Date and Time</ListItem>
                 <DateTimePicker fullWidth 
-                    // label="Date and Time"
                     name='eventDate'
                     value={value}
                     sx={{marginBottom:"10px"}}

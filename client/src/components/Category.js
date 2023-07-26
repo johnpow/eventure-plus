@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import Post2 from "./Post2";
+import Post from "./Post";
 import { QUERY_EVENTS_BY_CATEGORY } from '../utils/queries';
 import { useQuery } from '@apollo/client';
 import Auth from '../utils/auth';
@@ -7,9 +7,7 @@ import useStyles from './styles';
 import { useParams } from 'react-router-dom';
 
 const Category = () => {
-    const userId = Auth.getUserId();
     const { category } = useParams();
-
     const { loading, data } = useQuery(QUERY_EVENTS_BY_CATEGORY, {
         variables: { eventCategory: category },
       });
@@ -32,7 +30,7 @@ const Category = () => {
     <Grid  className={classes.cardContainer} sx={{ marginTop: '30px', marginRight: 'auto', marginLeft: 'auto'}}>
         {sortedEvents.map((event) => (
         <Grid className={classes.cardItem} key={event._id} >
-            <Post2
+            <Post
             key={event._id}
             _id={event._id}
             author={event.eventAuthor}
