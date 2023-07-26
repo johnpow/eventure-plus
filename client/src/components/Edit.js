@@ -171,14 +171,14 @@ const Edit = (props) => {
             aria-describedby="modal-modal-description"
             >
             <Box width={400} 
-            bgcolor={"white"} 
+            bgcolor={"background.paper"} 
             color={"text.primary"} p={3} 
             borderRadius={5}
             >
                 <Stack direction="row" justifyContent="end" color={"text.secondary"}>
                     <CloseIcon onClick={() => setOpen(false)}/>
                 </Stack>
-                <Typography variant="h6" color={"gray"} textAlign={"center"}>Update Event</Typography>
+                <Typography variant="h6" color={"text.primary"} textAlign={"center"}>Update Event</Typography>
                 <UserBox>
                     <Avatar 
                     sx={{width: "30px", height:"30px"}} 
@@ -204,7 +204,7 @@ const Edit = (props) => {
                   <Select
                     name='eventCategory'
                     value={formState.eventCategory}
-                    sx={{ width: "100%", marginBottom: "10px", color: 'gray' }}
+                    sx={{ width: "100%", marginBottom: "10px"}}
                     variant= "outlined"
                     placeholder="Category"
                     required

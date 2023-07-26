@@ -186,7 +186,7 @@ const Add = () => {
             aria-describedby="modal-modal-description"
             >
             <Box width={400} 
-            bgcolor={"white"} 
+            bgcolor={"background.paper"} 
             color={"text.primary"} p={3} 
             borderRadius={5}
             >
@@ -194,7 +194,7 @@ const Add = () => {
                   <CloseIcon onClick={() => {setOpen(false);
                   resetFormState();}}/>
                 </Stack>
-                <Typography variant="h6" color={"gray"} textAlign={"center"}>Create Event</Typography>
+                <Typography variant="h6" color={"text.primary"} textAlign={"center"}>Create Event</Typography>
                 <UserBox>
                   <Avatar 
                   sx={{width: "30px", height:"30px"}} 
@@ -221,7 +221,7 @@ const Add = () => {
                   <Select
                     name='eventCategory'
                     value={formState.eventCategory}
-                    sx={{ width: "100%", marginBottom: "10px", color: 'black' }}
+                    sx={{ width: "100%", marginBottom: "10px" }}
                     variant= "outlined"
                     placeholder="Category"
                     required
