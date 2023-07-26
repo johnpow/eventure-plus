@@ -21,12 +21,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { ListItem } from "@mui/material";
 import statesAndCities from './statesAndCities'; 
-import MenuIcon from '@mui/icons-material/Menu';
-import AppBar from '@mui/material/AppBar';
-import IconButton from '@mui/material/IconButton';
-import Toolbar from '@mui/material/Toolbar';
-import Sidebar from './Sidebar';
-import { useTheme, useMediaQuery } from '@mui/material';
 
 
 const ITEM_HEIGHT = 48;
@@ -294,7 +288,6 @@ const Add = () => {
                 <ListItem disablePadding sx={{marginBottom: '10px', marginLeft: '2px'}}>Date and Time</ListItem>
                 <DateTimePicker fullWidth 
                   sx={{ marginBottom:"10px" }}
-                  // label="Date and Time"
                   name='eventDate'
                   value={value}
                   onChange={handleDateChange}

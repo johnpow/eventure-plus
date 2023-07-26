@@ -32,7 +32,6 @@ const ExpandedCard = ({eventId, comments}) => {
     } catch (error) {
       console.error(error);
     }
-    // window.location.reload();
     setComment('');
   };
 
@@ -46,7 +45,6 @@ const ExpandedCard = ({eventId, comments}) => {
       console.error(error);
     }
     setOpenDialog(false);
-    // window.location.reload();
   };
   
 

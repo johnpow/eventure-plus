@@ -39,7 +39,6 @@ class AuthService {
     localStorage.removeItem('user_id');
     localStorage.removeItem('username');
     window.location.assign('/');
-    // window.location.reload();
   }
 
   getUserId() {

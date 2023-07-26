@@ -1,94 +1,91 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Grid, Paper, TextField, Button, Avatar, Typography } from '@mui/material';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
-
 import Auth from '../utils/auth';
+import { useState } from 'react';
+import EventureBG from '../images/cards/eventureBG.png';
 
-const Login = (props) => {
-  const [formState, setFormState] = useState({ email: '', password: '' });
-  const [login, { error, data }] = useMutation(LOGIN_USER);
 
-  // update state based on form input changes
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+const Login = () => {
+    const [formState, setFormState] = useState({ email: '', password: '' });
+    const [login, { error}] = useMutation(LOGIN_USER);
 
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
+    // update state based on form input changes
+    const handleChange = (event) => {
+      const { name, value } = event.target;
 
-  // submit form
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    console.log(formState);
-    try {
-      const { data } = await login({
-        variables: { ...formState },
+      setFormState({
+        ...formState,
+        [name]: value,
       });
+    };
 
-      Auth.login(data.login.token);
-    } catch (e) {
-      console.error(e);
-    }
+    // submit form
+    const handleFormSubmit = async (event) => {
+      event.preventDefault();
+      console.log(formState);
+      try {
+        const { data } = await login({
+          variables: { ...formState },
+        });
+        Auth.login(data.login.token, data.login.user._id, data.login.user.username);
+      } catch (e) {
+        console.error(e);
+      }
 
-    // clear form values
-    setFormState({
-      email: '',
-      password: '',
-    });
-  };
-
-  return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
-            {data ? (
-              <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the homepage.</Link>
-              </p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
-                <input
-                  className="form-input"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                <input
-                  className="form-input"
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                <button
-                  className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </form>
-            )}
-
-            {error && (
+      // clear form values
+      setFormState({
+        email: '',
+        password: '',
+      });
+    };
+    
+    return (
+      <Grid
+      container
+      justifyContent="center"  
+      style={{
+        minHeight: 'calc(100vh - 64px)',
+        backgroundImage: `url(${EventureBG})`, // Set the background image here
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'fixed',
+      }}>
+        <Paper elevation={10} sx={{height: '70vh', width: 300, margin: "20px auto", padding:"20px"}}>
+          <Grid align="center" sx={{margin: "10px auto 40px"}}>
+            <Typography variant="h4">Login</Typography>
+          </Grid>
+          <form onSubmit={handleFormSubmit}>
+          <Typography sx={{ paddingLeft: '0'}}> Email:</Typography>
+            <TextField variant="standard" 
+            placeholder="Enter Email" sx={{margin: "10px 0 30px 0"}} 
+            fullWidth required
+            name="email"
+            type="email"
+            value={formState.email}
+            onChange={handleChange} 
+            />
+            <Typography sx={{ paddingLeft: '0'}}> Password:</Typography>
+            <TextField variant="standard" 
+            placeholder="*********" sx={{margin: "10px 0 20px 0"}} 
+            fullWidth required
+            name="password"
+            type="password"
+            value={formState.password}
+            onChange={handleChange} 
+            />
+            <Button type="submit" color="primary" variant="contained" fullWidth sx={{margin: "30px auto"}}>Login</Button>
+          </form>
+          {error && (
               <div className="my-3 p-3 bg-danger text-white">
                 {error.message}
               </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </main>
-  );
-};
+          )}
+        </Paper>
+      </Grid>
+   
+    );
+  };
 
 export default Login;

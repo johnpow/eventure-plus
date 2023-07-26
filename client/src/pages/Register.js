@@ -1,8 +1,5 @@
 import React from 'react';
 import { Grid, Paper, TextField, Button, Avatar, Typography } from '@mui/material';
-import { FormControl, InputLabel, Input, InputAdornment, IconButton } from '@mui/material';
-// import { Visibility, VisibilityOff } from '@mui/icons-material';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
@@ -10,9 +7,7 @@ import { useState } from 'react';
 import EventureBG from '../images/cards/eventureBG.png';
 
 
-
 const Register = () => {
-    const [showPassword, setShowPassword] = React.useState(false);
     const [formState, setFormState] = useState({
         username: '',
         email: '',
@@ -56,9 +51,6 @@ const Register = () => {
       }}>
         <Paper elevation={10} sx={{height: '70vh', width: 300, margin: "20px auto", padding:"20px"}}>
           <Grid align="center" sx={{margin: "10px auto 40px"}}>
-            {/* <Avatar sx={{bgcolor: "primary.main"}}>
-              <LockOutlinedIcon />
-            </Avatar> */}
             <Typography variant="h4">Register</Typography>
           </Grid>
           <form onSubmit={handleFormSubmit}>

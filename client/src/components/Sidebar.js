@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button } from "@mui/material";
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import HomeIcon from '@mui/icons-material/Home';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
@@ -10,16 +9,12 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Link, useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import statesAndCities from './statesAndCities'; 
-import { useTheme, useMediaQuery } from '@mui/material';
 
 
 const Sidebar = ({ colorMode, theme }) => {
-
-
     const navigate = useNavigate();
     const [selectedState, setSelectedState] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
@@ -51,7 +46,6 @@ const Sidebar = ({ colorMode, theme }) => {
 
     return (
         <Box  
-        // flex={1} p={2} 
         sx={{ display: {xs: "none", sm: "block"}, paddingRight: '45px' }}>
             <Box position={"fixed"} sx={{ backgroundColor: "background.default", height: '100vh' }} >
             <List>

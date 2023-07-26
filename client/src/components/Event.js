@@ -12,9 +12,7 @@ import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Checkbox, Tooltip, Divider } from '@mui/material';
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
@@ -41,8 +39,6 @@ import SocialImg from '../images/cards/Social.png';
 import SportsImg from '../images/cards/Sports.png';
 import TechImg from '../images/cards/Tech.png';
 import defaultImg from '../images/cards/defaultImg.png';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -187,7 +183,6 @@ const Event = (props) => {
     catch (error) {
         console.error(error);
     }
-    // window.location.reload();
   };
 
 
@@ -227,11 +222,6 @@ const Event = (props) => {
             {props.author[0]}
           </Avatar>
         }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title= {props.title}
         subheader= {formatDate(props.date)}
       />
@@ -277,9 +267,6 @@ const Event = (props) => {
           />  
           </Tooltip>
         </IconButton>
-        {/* <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton> */}
         <IconButton aria-label="comment" onClick={() => handleExpandCard(props._id)}>
             <InsertCommentTwoToneIcon /> <Typography p={1}> {props.comments.length}</Typography>
         </IconButton>
